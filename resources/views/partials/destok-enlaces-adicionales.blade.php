@@ -20,4 +20,8 @@
           <span>&nbsp;</span>
           <span>Garantía de entrega</span>
         </a>
+        <a href="https://blessrom.tech" target="_blank" class="no-underline hover:text-white flex flex-col items-center">
+          <span>&nbsp;</span>
+          <span>Blessrom Tech</span>
+        </a>
       </div>

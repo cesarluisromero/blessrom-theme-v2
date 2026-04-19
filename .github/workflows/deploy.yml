@@ -1,0 +1,55 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, ctype, iconv, intl
+          coverage: none
+
+      - name: 📦 Install Composer dependencies
+        run: composer install --no-ansi --no-dev --no-interaction --optimize-autoloader
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 🛠️ Install NPM dependencies and build
+        run: |
+          npm install
+          npm run build
+
+      - name: 📂 Sync files to Hostinger
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # IMPORTANTE: Ajusta esta ruta según tu estructura en Hostinger
+          server-dir: /public_html/wp-content/themes/blessrom-theme/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .env
+            package.json
+            package-lock.json
+            composer.json
+            composer.lock
+            vite.config.js
+            tailwind.config.js
+            README.md

@@ -1,4 +1,5 @@
-module.exports = {
+/** @type {import('tailwindcss').Config} */
+export default {
   content: [
     './resources/views/**/*.blade.php',
     './resources/scripts/**/*.js',
@@ -7,18 +8,12 @@ module.exports = {
     './*.php',
   ],
   theme: {
-    extend: {},
-  },
-  plugins: [],
-}
-
-module.exports = {
-  theme: {
     extend: {
       colors: {
-        primary: '#4f46e5',        // azul indigo-600
-        'primary-dark': '#4338ca' // azul indigo-700
-      }
-    }
-  }
+        primary: '#4f46e5',
+        'primary-dark': '#4338ca',
+      },
+    },
+  },
+  plugins: [],
 }

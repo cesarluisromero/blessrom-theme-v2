@@ -1,5 +1,5 @@
 {{--
-  Template Name: Página Legal Premium
+  Template Name: Legal Premium
 --}}
 
 @extends('layouts.app')

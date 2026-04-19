@@ -1,0 +1,97 @@
+@import "tailwindcss" theme(static);
+@source "../views/";
+@source "../../app/";
+
+a {
+    @apply no-underline hover:no-underline;
+  }
+
+/* Ocultar Swiper en desktop */
+@media (min-width: 768px) {
+  .product-swiper { display: none; }
+}
+
+/* Ocultar la galería de escritorio en móviles */
+@media (max-width: 767px) {
+  .desktop-gallery { display: none; }
+}
+
+/* 🔒 Ocultar la sección del cupón en el checkout */
+.woocommerce-form-coupon-toggle {
+  display: none !important;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+@layer utilities {
+  .hide-swiper-button-on-mobile {
+    @apply hidden md:flex;
+  }
+}
+
+@layer components {
+  .swiper-horizontal > .swiper-scrollbar {
+    @apply h-1.5 bg-transparent rounded-full pointer-events-none;
+    position: absolute;
+    left: 4px; right: 4px; bottom: 4px;
+  }
+  .swiper-scrollbar-drag {
+    @apply bg-blue-500/80 rounded-full shadow-md pointer-events-auto;
+    transition: background-color 0.2s, box-shadow 0.2s;
+  }
+  .swiper-scrollbar-drag:hover {
+    @apply bg-blue-600;
+  }
+}
+/* Estilo select2 similar a inputs con Tailwind */
+.select2-container .select2-selection--single {
+  border-radius: 0.75rem;       /* rounded-xl */
+  border: 1px solid #cbd5e1;    /* border-slate-300 */
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  padding: 0 0.75rem;
+  background-color: #fff;
+}
+.select2-container .select2-selection--single .select2-selection__rendered {
+  line-height: 42px;
+  padding-left: 0;
+}
+.select2-container .select2-selection--single .select2-selection__arrow {
+  height: 42px;
+  right: 0.5rem;
+}
+
+/* Full-bleed: rompe el contenedor y ocupa todo el viewport de ancho */
+.full-bleed {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+/* Deja que el Swiper y sus slides crezcan según el contenido (la imagen) */
+.bannervestidos-swiper,
+.bannervestidos-swiper .swiper-wrapper,
+.bannervestidos-swiper .swiper-slide,
+.home-banner2-swiper,
+.home-banner2-swiper .swiper-wrapper,
+.home-banner2-swiper .swiper-slide {
+  height: auto;
+}
+
+/* Asegura que la imagen dicte la altura y no deje huecos */
+.bannervestidos-swiper .swiper-slide > img,
+.home-banner2-swiper .swiper-slide > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+
+/* Evita que el botón toque el notch/borde en móviles */
+.pb-safe { padding-bottom: max(0.75rem, env(safe-area-inset-bottom)); }
+.mb-safe { margin-bottom:  max(0.75rem, env(safe-area-inset-bottom)); }

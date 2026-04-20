@@ -36,7 +36,7 @@
   class="flex-grow px-4 py-2 text-sm text-gray-700 placeholder-gray-400 focus:outline-none"
   x-model="query"
   @input.debounce.300ms="search"
-  @keydown.enter.prevent="window.location.href = `${window.location.origin}/blessrom/?s=${encodeURIComponent(query)}`"
+  @keydown.enter.prevent="window.location.href = `${window.location.origin}/?s=${encodeURIComponent(query)}&post_type=product`"
 />
     <button class="bg-yellow-400 hover:bg-yellow-500 text-white px-4 flex items-center justify-center transition" @click.prevent>
       <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">

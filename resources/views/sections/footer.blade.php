@@ -16,7 +16,7 @@
         <li><a href="{{ url('/tienda') }}" class="hover:underline text-gray-300">Tienda</a></li>
         <li><a href="{{ url('/contacto') }}" class="hover:underline text-gray-300">Contacto</a></li>
         <li><a href="{{ url('/politica-devoluciones') }}" class="hover:underline text-gray-300">Política de devoluciones</a></li>
-        <li><a href="{{ url('/terminos-condiciones') }}" class="hover:underline text-gray-300">Términos y condiciones</a></li>
+        <li><a href="{{ url('/terminos-de-uso/') }}" class="hover:underline text-gray-300">Términos y condiciones</a></li>
       </ul>
     </div>
 

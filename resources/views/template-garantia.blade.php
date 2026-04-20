@@ -22,7 +22,7 @@
             Garantía de Entrega Total
           </h1>
           <p class="mt-6 text-lg leading-8 text-slate-600 max-w-2xl">
-            En Blessrom, no solo vendemos moda, entregamos confianza. Nuestra garantía asegura que tu pedido llegue a tus manos en perfectas condiciones y en el tiempo acordado.
+            En Blessrom, no solo vendemos moda, entregamos confianza. Nuestra garantía asegura <strong>envíos rápidos a todo el país</strong>, asegurando que tu pedido llegue a tus manos en perfectas condiciones y en el tiempo acordado.
           </p>
         </div>
       </div>
@@ -52,7 +52,7 @@
             </div>
             <h3 class="text-xl font-bold text-slate-900 mb-2">Plazos Cumplidos</h3>
             <p class="text-slate-600 leading-relaxed">
-              Cumplimos con nuestros tiempos estipulados. Si hay un retraso ajeno a la agencia, te compensamos de inmediato.
+              Garantizamos <strong>envíos rápidos a todo el país</strong> con los mejores plazos de cumplimiento del mercado. Si hay un retraso inesperado, te compensamos.
             </p>
           </div>
 

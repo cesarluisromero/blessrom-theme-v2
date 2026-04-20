@@ -7,6 +7,11 @@
   resolved "https://registry.npmjs.org/@alloc/quick-lru/-/quick-lru-5.2.0.tgz"
   integrity sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==
 
+"@alpinejs/collapse@^3.15.11":
+  version "3.15.11"
+  resolved "https://registry.npmjs.org/@alpinejs/collapse/-/collapse-3.15.11.tgz"
+  integrity sha512-CjbqD9vpp/o4PHSpBtZ0oIWEkEA4lanEhJE9jrRJmmgQnxguOJUHQFQUEF0OyjUF7JQpP/KfpyY18PaHMMs8Nw==
+
 "@ampproject/remapping@^2.3.0":
   version "2.3.0"
   resolved "https://registry.npmjs.org/@ampproject/remapping/-/remapping-2.3.0.tgz"

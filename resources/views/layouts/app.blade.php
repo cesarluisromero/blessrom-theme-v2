@@ -12,12 +12,12 @@
       }
     </style>
     
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>     
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
      @vite([
       'resources/styles/app.css',
       'resources/scripts/app.js',
     ])
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     @stack('styles')
     @php(wp_head()) 
   </head>
@@ -96,6 +96,5 @@
     </script>   
     
     @php(wp_footer())    
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   </body>
 </html>

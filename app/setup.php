@@ -554,3 +554,36 @@ add_action('acf/save_post', function ($post_id) {
         \App\View\Composers\Helpers\BannerCacheHelper::clearAllPageCache((int) $post_id);
     }
 }, 20); // Prioridad 20 para ejecutarse después de que ACF guarde los datos
+
+/**
+ * ⚡ SPEED HACKS: Desactivar basura innecesaria de WordPress
+ */
+add_action('init', function () {
+    // Desactivar Emojis
+    remove_action('wp_head', 'print_emoji_detection_script', 7);
+    remove_action('admin_print_scripts', 'print_emoji_detection_script');
+    remove_action('wp_head', 'print_emoji_detection_script', 7);
+    remove_action('wp_print_styles', 'print_emoji_styles');
+    remove_action('admin_print_styles', 'print_emoji_styles');
+    remove_filter('the_content_feed', 'wp_staticize_emoji');
+    remove_filter('comment_text_rss', 'wp_staticize_emoji');
+    remove_filter('wp_mail', 'wp_staticize_emoji_for_email');
+    
+    // Desactivar WP-Embed
+    remove_action('wp_head', 'wp_oembed_add_discovery_links');
+    remove_action('wp_head', 'wp_oembed_add_host_js');
+    
+    // Limpiar cabecera
+    remove_action('wp_head', 'rsd_link');
+    remove_action('wp_head', 'wlwmanifest_link');
+    remove_action('wp_head', 'wp_generator');
+    remove_action('wp_head', 'wp_shortlink_wp_head');
+    remove_action('wp_head', 'rest_output_link_wp_head', 10);
+    // remove_action('wp_head', 'wp_resource_hints', 2);
+});
+
+// Desactivar CSS de bloques de WooCommerce si no usas bloques de Gutenberg para productos
+add_action('wp_enqueue_scripts', function () {
+    wp_dequeue_style('wc-blocks-style');
+    wp_dequeue_style('wc-blocks-vendors-style'); // También los vendedores de bloques
+}, 100);

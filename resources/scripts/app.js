@@ -1,9 +1,12 @@
 import '../styles/app.css';
 import Alpine from 'alpinejs';
+import collapse from '@alpinejs/collapse';
 import Swiper from 'swiper/bundle';
 import 'swiper/css/bundle';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+
+Alpine.plugin(collapse);
 
 
 

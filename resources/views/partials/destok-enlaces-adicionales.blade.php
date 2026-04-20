@@ -16,7 +16,7 @@
           <span>&nbsp;</span>
           <span>Invita y Gana</span>
         </a>
-        <a href="#" class="no-underline hover:text-white flex flex-col items-center">
+        <a href="/garantia-de-entrega/" class="no-underline hover:text-white flex flex-col items-center">
           <span>&nbsp;</span>
           <span>Garantía de entrega</span>
         </a>

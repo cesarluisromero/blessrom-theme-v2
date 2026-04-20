@@ -99,8 +99,22 @@ a {
 
 /* --- Functional Catalog Styles --- */
 
+/* Corrección para Emojis Gigantes (conflicto Tailwind Preflight + WordPress Emojis) */
+img.emoji {
+  display: inline !important;
+  border: none !important;
+  box-shadow: none !important;
+  height: 1em !important;
+  width: 1em !important;
+  margin: 0 .07em !important;
+  vertical-align: -0.1em !important;
+  background: none !important;
+  padding: 0 !important;
+}
+
 /* Quick View Modal Animation */
 [x-cloak] { display: none !important; }
+
 
 /* Product Card Enhancements */
 .producto-card {

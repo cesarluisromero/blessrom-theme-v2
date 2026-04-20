@@ -1,5 +1,5 @@
 {{--
-  Template Name: Garantía Premium
+  Template Name: 00 Garantía Premium
 --}}
 
 @extends('layouts.app')

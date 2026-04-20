@@ -27,13 +27,11 @@
         class="bg-[#FFB816] text-white text-[11px] text-center py-2 px-3 rounded hover:bg-yellow-500 transition font-bold uppercase tracking-wider">
         Ver producto
       </a>
-      @if ($product->is_type('simple'))
-        <button 
-          @click="$dispatch('open-quick-view', { product_id: {{ $product->get_id() }} })"
-          class="bg-gray-100 text-gray-700 text-[11px] text-center py-2 px-3 rounded hover:bg-gray-200 transition font-bold uppercase tracking-wider">
-          Vista rápida
-        </button>
-      @endif
+      <button 
+        @click="$dispatch('open-quick-view', { product_id: {{ $product->get_id() }} })"
+        class="bg-gray-100 text-gray-700 text-[11px] text-center py-2 px-3 rounded hover:bg-gray-200 transition font-bold uppercase tracking-wider">
+        Vista rápida
+      </button>
     </div>
   </div>
 </div>

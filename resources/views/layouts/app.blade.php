@@ -43,6 +43,7 @@
       @endif
 
       @include('sections.footer')
+      @include('partials.quick-view-modal')
     </div>
     @php(do_action('get_footer'))    
     

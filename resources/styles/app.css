@@ -96,3 +96,39 @@ a {
 /* Evita que el botón toque el notch/borde en móviles */
 .pb-safe { padding-bottom: max(0.75rem, env(safe-area-inset-bottom)); }
 .mb-safe { margin-bottom:  max(0.75rem, env(safe-area-inset-bottom)); }
+
+/* --- Functional Catalog Styles --- */
+
+/* Quick View Modal Animation */
+[x-cloak] { display: none !important; }
+
+/* Product Card Enhancements */
+.producto-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+@media (min-width: 1024px) {
+  .producto-card:hover {
+    transform: translateY(-4px);
+  }
+}
+
+/* Aspect Ratio for consistency in "Functional" design */
+.aspect-p-card {
+  aspect-ratio: 3 / 4;
+}
+
+/* Custom Scrollbar for the modal */
+.quick-view-desc::-webkit-scrollbar {
+  width: 4px;
+}
+.quick-view-desc::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.quick-view-desc::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+.quick-view-desc::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

@@ -113,3 +113,35 @@ function custom_add_to_cart_ajax() {
 
     wp_die();
 }
+
+add_action('wp_ajax_custom_quick_view', 'App\\custom_quick_view_handler');
+add_action('wp_ajax_nopriv_custom_quick_view', 'App\\custom_quick_view_handler');
+
+function custom_quick_view_handler() {
+    $product_id = intval($_GET['product_id'] ?? 0);
+    $product = wc_get_product($product_id);
+
+    if (!$product) {
+        wp_send_json_error('Producto no encontrado.');
+    }
+
+    $data = [
+        'id' => $product->get_id(),
+        'name' => $product->get_name(),
+        'price_html' => $product->get_price_html(),
+        'description' => $product->get_short_description(),
+        'image' => wp_get_attachment_image_url($product->get_image_id(), 'large'),
+        'gallery' => array_map(function($id) {
+            return wp_get_attachment_image_url($id, 'large');
+        }, $product->get_gallery_image_ids()),
+        'permalink' => get_permalink($product->get_id()),
+    ];
+
+    if ($product->is_type('variable')) {
+        $data['variations'] = $product->get_available_variations();
+        $data['attributes'] = $product->get_variation_attributes();
+    }
+
+    wp_send_json_success($data);
+    wp_die();
+}

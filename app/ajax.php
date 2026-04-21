@@ -147,26 +147,38 @@ add_action('wp_ajax_semantic_search', 'semantic_search_handler');
 add_action('wp_ajax_nopriv_semantic_search', 'semantic_search_handler');
 
 function semantic_search_handler() {
-    $query = !empty($_REQUEST['query']) ? sanitize_text_field($_REQUEST['query']) : (!empty($_GET['query']) ? sanitize_text_field($_GET['query']) : '');
-    
-    if (empty($query)) {
-        wp_send_json_error('Consulta vacía');
+    // Capturamos la consulta de cualquier medio (GET/POST/JSON)
+    $query = '';
+    if (!empty($_REQUEST['query'])) {
+        $query = sanitize_text_field($_REQUEST['query']);
+    } elseif (!empty($_GET['query'])) {
+        $query = sanitize_text_field($_GET['query']);
     }
 
-    $response = wp_remote_post('http://77.37.43.158/ia-search', [
+    if (empty($query)) {
+        wp_send_json_error('Consulta vacía en el puente');
+    }
+
+    // Enviamos la petición POST JSON al VPS a través del túnel Nginx (Puerto 80)
+    $args = [
         'headers' => [
             'Content-Type' => 'application/json',
+            'Accept'       => 'application/json',
         ],
-        'body' => json_encode([
-            'query' => $query,
-            'limit' => 4,
-            'minScore' => 0.6
+        'body'        => json_encode([
+            'query'    => $query,
+            'limit'    => 4,
+            'minScore' => 0.5
         ]),
-        'timeout' => 5,
-    ]);
+        'method'      => 'POST',
+        'data_format' => 'body',
+        'timeout'     => 10,
+    ];
+
+    $response = wp_remote_post('http://77.37.43.158/ia-search', $args);
 
     if (is_wp_error($response)) {
-        wp_send_json_error('Error de conexión: ' . $response->get_error_message());
+        wp_send_json_error('Error de conexión con VPS: ' . $response->get_error_message());
     }
 
     $body = wp_remote_retrieve_body($response);
@@ -175,7 +187,7 @@ function semantic_search_handler() {
     if (isset($data['results'])) {
         wp_send_json_success($data['results']);
     } else {
-        wp_send_json_error('No hay resultados de la IA');
+        wp_send_json_error('La IA en el VPS no devolvió resultados validos');
     }
 
     wp_die();

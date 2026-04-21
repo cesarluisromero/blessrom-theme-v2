@@ -141,7 +141,7 @@ function custom_quick_view_handler() {
         $data['variations'] = $product->get_available_variations();
         $data['attributes'] = $product->get_variation_attributes();
     }
-
+}
 
 add_action('wp_ajax_semantic_search', 'semantic_search_handler');
 add_action('wp_ajax_nopriv_semantic_search', 'semantic_search_handler');

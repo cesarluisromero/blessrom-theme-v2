@@ -24,9 +24,9 @@
     <div>
       <h3 class="text-lg font-semibold mb-4">Síguenos</h3>
       <div class="flex space-x-4">
-        <a href="#" class="text-gray-300 hover:text-white">Facebook</a>
-        <a href="#" class="text-gray-300 hover:text-white">Instagram</a>
-        <a href="#" class="text-gray-300 hover:text-white">WhatsApp</a>
+        <a href="https://www.facebook.com/profile.php?id=61580175840499" target="_blank" class="text-gray-300 hover:text-white">Facebook</a>
+        <a href="https://www.instagram.com/blessrom/" target="_blank" class="text-gray-300 hover:text-white">Instagram</a>
+        <a href="https://wa.me/51926940715" target="_blank" class="text-gray-300 hover:text-white">WhatsApp</a>
       </div>
     </div>
   </div>

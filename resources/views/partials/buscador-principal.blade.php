@@ -25,14 +25,7 @@
             })
 
         // 2. Búsqueda Semántica (IA Vectorial vía Proxy)
-        const formData = new FormData();
-        formData.append('action', 'semantic_search');
-        formData.append('query', this.query);
-
-        fetch('{{ admin_url('admin-ajax.php') }}', {
-            method: 'POST',
-            body: formData
-        })
+        fetch(`{{ admin_url('admin-ajax.php') }}?action=semantic_search&query=${encodeURIComponent(this.query)}`)
         .then(res => res.json())
         .then(data => {
             if (data.success && data.data) {

@@ -166,7 +166,7 @@ function semantic_search_handler() {
     ]);
 
     if (is_wp_error($response)) {
-        wp_send_json_error('Error al conectar con la IA');
+        wp_send_json_error('Error de conexión: ' . $response->get_error_message());
     }
 
     $body = wp_remote_retrieve_body($response);

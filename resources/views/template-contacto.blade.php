@@ -10,7 +10,7 @@
       <!-- Minimal Header -->
       <div class="bg-white border-b border-slate-50 py-12 md:py-16">
         <div class="mx-auto max-w-7xl px-6 lg:px-8 text-center text-slate-900">
-          <h1 class="text-3xl font-black tracking-tight sm:text-5xl uppercase">Formulario de Contacto</h1>
+          <h3 class="text-3xl font-black tracking-tight sm:text-5xl uppercase">Formulario de Contacto</h3>
           <p class="mt-4 text-base text-slate-400 max-w-xl mx-auto italic">Por favor complete todos los campos requeridos.</p>
         </div>
       </div>
@@ -86,7 +86,7 @@
 
               <!-- Button Center -->
               <div class="pt-12 flex justify-center border-t border-slate-50">
-                <button class="bg-[#2ecc71] hover:bg-[#27ae60] text-white font-bold py-4 px-16 rounded-md shadow-lg shadow-green-100 transition-all uppercase tracking-widest text-lg">
+                <button class="bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-bold py-4 px-16 rounded-md shadow-lg shadow-blue-100 transition-all uppercase tracking-widest text-lg">
                   Enviar
                 </button>
               </div>

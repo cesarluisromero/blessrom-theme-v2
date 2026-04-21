@@ -132,6 +132,27 @@ img.emoji {
   aspect-ratio: 3 / 4;
 }
 
+/* --- WooCommerce Forms Beauty --- */
+.woocommerce-address-fields__field-wrapper p {
+  @apply mb-4 flex flex-col;
+}
+
+.woocommerce-address-fields__field-wrapper label {
+  @apply block text-sm font-bold text-slate-700 mb-1.5 transition-colors;
+}
+
+.woocommerce-address-fields__field-wrapper .input-text,
+.woocommerce form .form-row input.input-text,
+.woocommerce form .form-row textarea {
+  @apply w-full px-4 py-3 rounded-xl border border-slate-200 outline-none transition-all duration-200;
+  @apply placeholder:text-slate-300 text-slate-600;
+}
+
+.woocommerce-address-fields__field-wrapper .input-text:focus,
+.woocommerce form .form-row input.input-text:focus {
+  @apply border-primary ring-2 ring-primary/10 shadow-sm transition-all;
+}
+
 /* Custom Scrollbar for the modal */
 .quick-view-desc::-webkit-scrollbar {
   width: 4px;

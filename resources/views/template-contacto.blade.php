@@ -77,29 +77,53 @@
 
           <!-- Form Column -->
           <div class="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-100">
-            <h3 class="text-2xl font-bold text-slate-900 mb-8">Envíanos un mensaje</h3>
-            <div class="space-y-6">
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <label for="name" class="block text-sm font-semibold text-slate-700 mb-2">Nombre completo</label>
-                  <input type="text" id="name" placeholder="Ej: Maria García" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-slate-300">
-                </div>
-                <div>
-                  <label for="email" class="block text-sm font-semibold text-slate-700 mb-2">Correo electrónico</label>
-                  <input type="email" id="email" placeholder="maria@ejemplo.com" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-slate-300">
-                </div>
-              </div>
+            <h3 class="text-2xl font-bold text-slate-900 mb-8 border-b border-slate-50 pb-4">Envíanos un mensaje</h3>
+            <div class="space-y-8">
+              <!-- Fila 1: Nombre (3 columnas como en la imagen) -->
               <div>
-                <label for="subject" class="block text-sm font-semibold text-slate-700 mb-2">Asunto</label>
-                <input type="text" id="subject" placeholder="Consulta sobre pedido..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-slate-300">
+                <label class="form-label-primary">Nombre del cliente</label>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div class="flex flex-col">
+                    <input type="text" placeholder="" class="form-input-premium">
+                    <span class="form-label-sub">Nombre</span>
+                  </div>
+                  <div class="flex flex-col">
+                    <input type="text" placeholder="" class="form-input-premium">
+                    <span class="form-label-sub">Segundo Nombre</span>
+                  </div>
+                  <div class="flex flex-col">
+                    <input type="text" placeholder="" class="form-input-premium">
+                    <span class="form-label-sub">Apellido</span>
+                  </div>
+                </div>
               </div>
-              <div>
-                <label for="message" class="block text-sm font-semibold text-slate-700 mb-2">Mensaje</label>
-                <textarea id="message" rows="5" placeholder="Escribe aquí tu mensaje..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-slate-300 resize-none"></textarea>
+
+              <!-- Fila 2: Correo y Asunto (2 columnas) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div class="flex flex-col">
+                  <label class="form-label-primary">Correo electrónico</label>
+                  <input type="email" placeholder="maria@ejemplo.com" class="form-input-premium">
+                  <span class="form-label-sub">Tu email para responderte</span>
+                </div>
+                <div class="flex flex-col">
+                  <label class="form-label-primary">Asunto de consulta</label>
+                  <input type="text" placeholder="¿En qué podemos ayudarte?" class="form-input-premium">
+                  <span class="form-label-sub">Opcional</span>
+                </div>
               </div>
-              <button class="w-full bg-primary hover:bg-primary-dark text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/30 transition-all transform hover:-translate-y-1 active:scale-95">
-                Enviar mensaje
-              </button>
+
+              <!-- Fila 3: Mensaje (Full width) -->
+              <div class="flex flex-col">
+                <label class="form-label-primary">Mensaje o Comentario</label>
+                <textarea rows="5" placeholder="Escribe aquí tu duda..." class="form-input-premium resize-none"></textarea>
+                <span class="form-label-sub">Cuéntanos los detalles</span>
+              </div>
+
+              <div class="pt-4">
+                <button class="btn-blue-premium w-full sm:w-auto">
+                  Enviar mensaje ahora
+                </button>
+              </div>
             </div>
           </div>
 

@@ -132,25 +132,63 @@ img.emoji {
   aspect-ratio: 3 / 4;
 }
 
-/* --- WooCommerce Forms Beauty --- */
+/* --- WooCommerce & General Forms Beauty (Image-Style) --- */
 .woocommerce-address-fields__field-wrapper p {
-  @apply mb-4 flex flex-col;
+  @apply mb-6 flex flex-col;
 }
 
-.woocommerce-address-fields__field-wrapper label {
-  @apply block text-sm font-bold text-slate-700 mb-1.5 transition-colors;
+/* Primary Label (Top) */
+.woocommerce-address-fields__field-wrapper label,
+.form-label-primary {
+  @apply block text-base font-bold text-slate-700 mb-2 transition-colors;
 }
 
+/* Sub Label (Bottom) */
+.form-label-sub {
+  @apply block text-xs font-medium text-slate-400 mt-1.5 ml-1 transition-colors;
+}
+
+/* Specific Input/Select/Textarea styling */
 .woocommerce-address-fields__field-wrapper .input-text,
 .woocommerce form .form-row input.input-text,
-.woocommerce form .form-row textarea {
-  @apply w-full px-4 py-3 rounded-xl border border-slate-200 outline-none transition-all duration-200;
-  @apply placeholder:text-slate-300 text-slate-600;
+.woocommerce form .form-row textarea,
+.form-input-premium {
+  @apply w-full px-5 py-4 rounded-lg border border-slate-300 bg-white outline-none transition-all duration-200;
+  @apply placeholder:text-slate-300 text-slate-700 font-medium;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
 }
 
 .woocommerce-address-fields__field-wrapper .input-text:focus,
-.woocommerce form .form-row input.input-text:focus {
-  @apply border-primary ring-2 ring-primary/10 shadow-sm transition-all;
+.woocommerce form .form-row input.input-text:focus,
+.form-input-premium:focus {
+  @apply border-blue-500 ring-4 ring-blue-500/10 shadow-sm transition-all;
+}
+
+/* Blue Buttons (Vibrant and Visible) */
+.btn-blue-premium,
+.woocommerce button.button.alt,
+.woocommerce button.button {
+  @apply bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold py-4 px-10 rounded-xl shadow-lg shadow-blue-500/30 transition-all transform hover:-translate-y-1 active:scale-95 !important;
+}
+
+/* Grid Layout overrides for WC forms */
+@media (min-width: 768px) {
+  .woocommerce-address-fields__field-wrapper {
+    @apply grid grid-cols-12 gap-x-4;
+  }
+  .woocommerce-address-fields__field-wrapper .form-row {
+    @apply col-span-12 !important;
+  }
+  .woocommerce-address-fields__field-wrapper .form-row-first {
+    @apply col-span-6 !important;
+  }
+  .woocommerce-address-fields__field-wrapper .form-row-last {
+    @apply col-span-6 !important;
+  }
+  /* Optional: Names in 3 cols if needed */
+  .wc-name-col {
+    @apply col-span-4 !important;
+  }
 }
 
 /* Custom Scrollbar for the modal */

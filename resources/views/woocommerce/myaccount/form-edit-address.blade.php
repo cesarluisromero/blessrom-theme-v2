@@ -34,7 +34,7 @@
           <div class="mt-10 pt-6 border-t border-slate-100 flex justify-end">
             <button 
               type="submit" 
-              class="bg-primary hover:bg-primary-dark text-white font-bold py-4 px-10 rounded-xl shadow-lg shadow-primary/30 transition-all transform hover:-translate-y-1 active:scale-95" 
+              class="btn-blue-premium" 
               name="save_address" 
               value="{{ esc_attr__('Save address', 'woocommerce') }}"
             >

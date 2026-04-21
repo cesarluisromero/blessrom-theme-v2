@@ -1,18 +1,23 @@
-@php
-  do_action('woocommerce_before_edit_account_address_form');
-@endphp
+{{-- resources/views/woocommerce/myaccount/form-edit-address.blade.php --}}
+@extends('woocommerce.myaccount.account-layout')
 
-@if (!$load_address)
-  @include('woocommerce.myaccount.my-address')
-@else
-  <div class="max-w-4xl mx-auto py-8">
-    <form method="post" novalidate class="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
-      <!-- Header -->
+@section('page_title', 'Editar Dirección')
+@section('page_subtitle', 'Asegúrate de que tus datos de entrega sean correctos.')
+
+@section('account_content')
+  @php
+    do_action('woocommerce_before_edit_account_address_form');
+  @endphp
+
+  @if (!$load_address)
+    @include('woocommerce.myaccount.my-address')
+  @else
+    <form method="post" novalidate class="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden max-w-4xl">
+      {{-- Header Interno del Formulario --}}
       <div class="px-8 py-6 bg-slate-50 border-b border-slate-100">
-        <h2 class="text-2xl font-bold text-slate-900">
+        <h3 class="text-xl font-bold text-slate-900">
           {!! apply_filters('woocommerce_my_account_edit_address_title', $page_title, $load_address) !!}
-        </h2>
-        <p class="mt-1 text-sm text-slate-500">Completa los datos para asegurar una entrega correcta y rápida.</p>
+        </h3>
       </div>
 
       <div class="p-8">
@@ -46,9 +51,9 @@
         </div>
       </div>
     </form>
-  </div>
-@endif
+  @endif
 
-@php
-  do_action('woocommerce_after_edit_account_address_form');
-@endphp
+  @php
+    do_action('woocommerce_after_edit_account_address_form');
+  @endphp
+@endsection

@@ -86,7 +86,7 @@
 
               <!-- Button Center -->
               <div class="pt-12 flex justify-center border-t border-slate-50">
-                <button class="bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-bold py-4 px-16 rounded-md shadow-lg shadow-blue-100 transition-all uppercase tracking-widest text-lg">
+                <button class="bg-[#111B2E] hover:bg-[#0a101d] text-white font-bold py-4 px-16 rounded-md shadow-lg shadow-[#111B2E]/20 transition-all uppercase tracking-widest text-lg">
                   Enviar
                 </button>
               </div>

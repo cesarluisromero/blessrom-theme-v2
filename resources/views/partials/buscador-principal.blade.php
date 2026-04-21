@@ -1,25 +1,57 @@
 <div x-data="{
     query: '',
     results: [],
+    semanticResults: [],
     loading: false,
+    semanticLoading: false,
     show: false,
     search() {
-        if (this.query.length < 2) {
+        if (this.query.length < 3) {
             this.results = []
+            this.semanticResults = []
             this.show = false
             return
         }
         this.loading = true
+        this.semanticLoading = true
+        this.show = true
+
+        // 1. Búsqueda Estándar (WordPress)
         fetch(`<?php echo admin_url('admin-ajax.php'); ?>?action=custom_search&query=${this.query}`)
             .then(res => res.json())
             .then(data => {
                 this.results = data
-                this.show = true
                 this.loading = false
             })
+
+        // 2. Búsqueda Semántica (IA Vectorial)
+        fetch('http://77.37.43.158:8084/search', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: this.query, limit: 4, minScore: 0.6 })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data && data.results) {
+                this.semanticResults = data.results.map(item => ({
+                    id: 'ai-' + item.id,
+                    title: item.name,
+                    image: item.imageUrl,
+                    url: item.url,
+                    type: '✨ Sugerencias Inteligentes (IA)'
+                }))
+            }
+            this.semanticLoading = false
+        })
+        .catch(err => {
+            console.error('Error IA:', err)
+            this.semanticLoading = false
+        })
     },
     groupByType(items) {
-        return items.reduce((groups, item) => {
+        // Combinamos resultados normales y de IA
+        const allItems = [...this.semanticResults, ...items];
+        return allItems.reduce((groups, item) => {
             const type = item.type || 'Otros'
             if (!groups[type]) groups[type] = []
             groups[type].push(item)
@@ -60,8 +92,12 @@
         <template x-for="(group, type) in groupByType(results)" :key="type">
           <div>
             <!-- Encabezado del tipo (ej: Categoría, Producto) -->
-            <div class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-100 uppercase">
+            <div class="px-4 py-2 text-xs font-semibold uppercase flex items-center justify-between" 
+                 :class="type.includes('IA') ? 'bg-blue-50 text-blue-600' : 'bg-gray-100 text-gray-500'">
               <span x-text="type"></span>
+              <template x-if="type.includes('IA')">
+                <span class="text-[10px] bg-blue-600 text-white px-1.5 py-0.5 rounded-full ml-2">POWERED BY BOTBLESS</span>
+              </template>
             </div>
 
             <!-- Resultados de busqueda con imagen en miniatura-->

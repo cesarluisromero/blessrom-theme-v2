@@ -168,7 +168,7 @@ img.emoji {
 .btn-blue-premium,
 .woocommerce button.button.alt,
 .woocommerce button.button {
-  @apply bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold py-4 px-10 rounded-xl shadow-lg shadow-blue-500/30 transition-all transform hover:-translate-y-1 active:scale-95 !important;
+  @apply !bg-[#2563EB] hover:!bg-[#1D4ED8] !text-white !font-bold !py-4 !px-10 !rounded-xl !shadow-lg !shadow-blue-500/30 !transition-all !transform hover:!-translate-y-1 active:!scale-95;
 }
 
 /* Grid Layout overrides for WC forms */

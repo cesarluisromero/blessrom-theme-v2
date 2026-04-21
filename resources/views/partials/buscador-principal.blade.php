@@ -29,7 +29,7 @@
         formData.append('action', 'semantic_search');
         formData.append('query', this.query);
 
-        fetch("{{ admin_url('admin-ajax.php') }}", {
+        fetch('{{ admin_url('admin-ajax.php') }}', {
             method: 'POST',
             body: formData
         })

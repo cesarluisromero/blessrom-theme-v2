@@ -43,7 +43,7 @@
           <div class="mb-8 flex items-center justify-between">
             <div>
               <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">@yield('page_title', 'Mi Cuenta')</h1>
-              @if(has_yield('page_subtitle'))
+              @hasSection('page_subtitle')
                 <p class="text-sm text-slate-500 mt-1">@yield('page_subtitle')</p>
               @endif
             </div>

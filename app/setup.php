@@ -87,40 +87,32 @@ add_action('after_setup_theme', function () {
 
 }, 20);
 
-//carga la página del producto
+// Rediccionamiento de plantillas WooCommerce a Blade
 add_filter('template_include', function ($template) {
-        if (is_singular('product')) {
-            $blade_template = locate_template('resources/views/woocommerce/single-product.blade.php');
-            if ($blade_template) {
-                echo \Roots\view('woocommerce.single-product')->render();
-                exit; // Evita que cargue otras plantillas
-            }
+    if (is_singular('product')) {
+        $blade_template = locate_template('resources/views/woocommerce/single-product.blade.php');
+        if ($blade_template) {
+            echo \Roots\view('woocommerce.single-product')->render();
+            exit;
         }
-        return $template;
-}, 99);
-
-//redirige al checkout
-add_filter('template_include', function ($template) {
+    }
+    
     if (is_checkout() && !is_order_received_page()) {
         $blade_template = locate_template('resources/views/woocommerce/checkout/form-checkout.blade.php');
         if ($blade_template) {
             echo \Roots\view('woocommerce.checkout.form-checkout')->render();
-            exit; // Detiene el flujo de carga de otras plantillas
+            exit;
         }
     }
-    return $template;
-}, 99);
 
-//carga la página del producto
-add_filter('template_include', function ($template) {
-        if (is_singular('product')) {
-            $blade_template = locate_template('resources/views/woocommerce/single-product.blade.php');
-            if ($blade_template) {
-                echo \Roots\view('woocommerce.single-product')->render();
-                exit; // Evita que cargue otras plantillas
-            }
+    if (is_woocommerce()) {
+        $theme_template = locate_template('woocommerce.blade.php');
+        if ($theme_template) {
+            return $theme_template;
         }
-        return $template;
+    }
+
+    return $template;
 }, 99);
 
 
@@ -158,16 +150,6 @@ add_action('widgets_init', function () {
 
 require_once get_theme_file_path('app/ajax.php');
 
-add_filter('template_include', function ($template) {
-    if (is_woocommerce()) {
-        $theme_template = locate_template('woocommerce.blade.php');
-        if ($theme_template) {
-            return $theme_template;
-        }
-    }
-
-    return $template;
-}, 99);
 
 // Formulario "Añadir nuevo Color"
 add_action('pa_color_add_form_fields', function () {

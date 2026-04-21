@@ -29,12 +29,7 @@ class ThemeServiceProvider extends SageServiceProvider
         // Incluir acciones personalizadas del carrito
         require_once get_theme_file_path('app/cart-actions.php');
 
-        add_filter('template_include', function ($template) {
-            if (is_post_type_archive('product') || is_tax('product_cat')) {
-              return get_theme_file_path('resources/views/woocommerce/archive-product.php');
-            }
-            return $template;
-          }, 100);
+    }
           
           
 

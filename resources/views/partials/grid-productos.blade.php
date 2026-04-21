@@ -36,6 +36,16 @@
           'terms'    => $slugs,
           'operator' => 'IN',
         ];
+      } elseif (is_product_category()) {
+        $queried_object = get_queried_object();
+        if ($queried_object && isset($queried_object->slug)) {
+          $tax_query[] = [
+            'taxonomy' => 'product_cat',
+            'field'    => 'slug',
+            'terms'    => $queried_object->slug,
+            'operator' => 'IN',
+          ];
+        }
       }
 
       if (!empty($_GET['talla'])) {

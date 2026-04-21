@@ -17,7 +17,7 @@
         this.show = true
 
         // 1. Búsqueda Estándar (WordPress)
-        fetch(`<?php echo admin_url('admin-ajax.php'); ?>?action=custom_search&query=${this.query}`)
+        fetch("{{ admin_url('admin-ajax.php') }}?action=custom_search&query=${this.query}")
             .then(res => res.json())
             .then(data => {
                 this.results = data

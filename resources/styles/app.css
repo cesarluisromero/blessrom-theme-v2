@@ -177,17 +177,17 @@ img.emoji {
     @apply grid grid-cols-12 gap-x-4;
   }
   .woocommerce-address-fields__field-wrapper .form-row {
-    @apply col-span-12 !important;
+    @apply !col-span-12;
   }
   .woocommerce-address-fields__field-wrapper .form-row-first {
-    @apply col-span-6 !important;
+    @apply !col-span-6;
   }
   .woocommerce-address-fields__field-wrapper .form-row-last {
-    @apply col-span-6 !important;
+    @apply !col-span-6;
   }
   /* Optional: Names in 3 cols if needed */
   .wc-name-col {
-    @apply col-span-4 !important;
+    @apply !col-span-4;
   }
 }
 

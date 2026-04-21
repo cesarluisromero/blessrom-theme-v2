@@ -147,7 +147,7 @@ add_action('wp_ajax_semantic_search', 'semantic_search_handler');
 add_action('wp_ajax_nopriv_semantic_search', 'semantic_search_handler');
 
 function semantic_search_handler() {
-    $query = isset($_POST['query']) ? sanitize_text_field($_POST['query']) : '';
+    $query = isset($_REQUEST['query']) ? sanitize_text_field($_REQUEST['query']) : '';
     
     if (empty($query)) {
         wp_send_json_error('Consulta vacía');

@@ -23,16 +23,8 @@ class ThemeServiceProvider extends SageServiceProvider
      */
     public function boot()
     {
-        
         parent::boot();
-        
-        // Incluir acciones personalizadas del carrito
         require_once get_theme_file_path('app/cart-actions.php');
-
-    }
-          
-          
-
     }
 
     protected $composers = [

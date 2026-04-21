@@ -105,13 +105,6 @@ add_filter('template_include', function ($template) {
         }
     }
 
-    if (is_woocommerce()) {
-        $theme_template = locate_template('woocommerce.blade.php');
-        if ($theme_template) {
-            return $theme_template;
-        }
-    }
-
     return $template;
 }, 99);
 

@@ -147,13 +147,13 @@ add_action('wp_ajax_semantic_search', 'semantic_search_handler');
 add_action('wp_ajax_nopriv_semantic_search', 'semantic_search_handler');
 
 function semantic_search_handler() {
-    $query = isset($_REQUEST['query']) ? sanitize_text_field($_REQUEST['query']) : '';
+    $query = !empty($_REQUEST['query']) ? sanitize_text_field($_REQUEST['query']) : (!empty($_GET['query']) ? sanitize_text_field($_GET['query']) : '');
     
     if (empty($query)) {
         wp_send_json_error('Consulta vacía');
     }
 
-    $response = wp_remote_post('http://77.37.43.158:8084/search', [
+    $response = wp_remote_post('http://77.37.43.158/ia-search', [
         'headers' => [
             'Content-Type' => 'application/json',
         ],

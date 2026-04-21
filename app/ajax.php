@@ -142,6 +142,41 @@ function custom_quick_view_handler() {
         $data['attributes'] = $product->get_variation_attributes();
     }
 
-    wp_send_json_success($data);
+
+add_action('wp_ajax_semantic_search', 'semantic_search_handler');
+add_action('wp_ajax_nopriv_semantic_search', 'semantic_search_handler');
+
+function semantic_search_handler() {
+    $query = isset($_POST['query']) ? sanitize_text_field($_POST['query']) : '';
+    
+    if (empty($query)) {
+        wp_send_json_error('Consulta vacía');
+    }
+
+    $response = wp_remote_post('http://77.37.43.158:8084/search', [
+        'headers' => [
+            'Content-Type' => 'application/json',
+        ],
+        'body' => json_encode([
+            'query' => $query,
+            'limit' => 4,
+            'minScore' => 0.6
+        ]),
+        'timeout' => 5,
+    ]);
+
+    if (is_wp_error($response)) {
+        wp_send_json_error('Error al conectar con la IA');
+    }
+
+    $body = wp_remote_retrieve_body($response);
+    $data = json_decode($body, true);
+
+    if (isset($data['results'])) {
+        wp_send_json_success($data['results']);
+    } else {
+        wp_send_json_error('No hay resultados de la IA');
+    }
+
     wp_die();
 }

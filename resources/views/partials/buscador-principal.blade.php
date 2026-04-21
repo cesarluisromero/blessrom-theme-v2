@@ -24,16 +24,19 @@
                 this.loading = false
             })
 
-        // 2. Búsqueda Semántica (IA Vectorial)
-        fetch('http://77.37.43.158:8084/search', {
+        // 2. Búsqueda Semántica (IA Vectorial vía Proxy)
+        const formData = new FormData();
+        formData.append('action', 'semantic_search');
+        formData.append('query', this.query);
+
+        fetch("{{ admin_url('admin-ajax.php') }}", {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query: this.query, limit: 4, minScore: 0.6 })
+            body: formData
         })
         .then(res => res.json())
         .then(data => {
-            if (data && data.results) {
-                this.semanticResults = data.results.map(item => ({
+            if (data.success && data.data) {
+                this.semanticResults = data.data.map(item => ({
                     id: 'ai-' + item.id,
                     title: item.name,
                     image: item.imageUrl,

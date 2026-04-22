@@ -191,15 +191,18 @@ const lazyLoadModules = () => {
     entries.forEach(async (entry) => {
       if (entry.isIntersecting) {
         const el = entry.target;
-        // Configuración específica por tipo de swiper
+        if (el.dataset.initialized) return;
+        el.dataset.initialized = 'true';
+
+        // Configuración para productos y categorías
         if (el.classList.contains('product-swiper') || el.classList.contains('category-swiper') || el.classList.contains('vestidos-swiper')) {
           const slideCount = el.querySelectorAll('.swiper-slide').length;
           initSwiper(el, {
             slidesPerView: 6,
             spaceBetween: 18,
-            loop: slideCount > 6, // Solo hacer loop si hay más de 6 slides
+            loop: slideCount > 6,
             watchOverflow: true,
-            autoplay: slideCount > 6 ? { delay: 3000 } : false,
+            autoplay: slideCount > 6 ? { delay: 3000, disableOnInteraction: false } : false,
             pagination: { 
               el: el.querySelector('.swiper-pagination'),
               clickable: true,
@@ -210,43 +213,67 @@ const lazyLoadModules = () => {
               prevEl: el.closest('section')?.querySelector('[class*="-button-prev"]'),
             },
             breakpoints: { 
-              0: { slidesPerView: 1, pagination: { enabled: true }, loop: slideCount > 1, autoplay: slideCount > 1 }, 
+              0: { slidesPerView: 1, loop: slideCount > 1, autoplay: slideCount > 1 }, 
               640: { slidesPerView: 3, loop: slideCount > 3 }, 
               1024: { slidesPerView: 6, pagination: { enabled: false } } 
             }
           });
-        } else if (el.classList.contains('bannervestidos-swiper') || el.classList.contains('home-banner2-swiper')) {
+        } 
+        // Configuración para banners principales
+        else if (el.classList.contains('bannervestidos-swiper') || el.classList.contains('home-banner2-swiper') || el.classList.contains('banner-vestidos-swiper')) {
           const slideCount = el.querySelectorAll('.swiper-slide').length;
           initSwiper(el, {
             slidesPerView: 1,
             loop: slideCount > 1,
-            autoplay: slideCount > 1 ? { delay: 5000 } : false,
-            pagination: { clickable: true, el: el.querySelector('.swiper-pagination') },
+            watchOverflow: true,
+            autoplay: slideCount > 1 ? { delay: 5000, disableOnInteraction: false } : false,
+            pagination: { 
+              el: el.querySelector('.swiper-pagination'),
+              clickable: true 
+            },
+            navigation: {
+              nextEl: el.querySelector('[class*="-button-next"]'),
+              prevEl: el.querySelector('[class*="-button-prev"]'),
+            }
           });
         }
+
         if (el.hasAttribute('data-aos') && !window.AOS) {
           const { default: AOS } = await import('aos');
           import('aos/dist/aos.css');
-          AOS.init({ once: true, duration: 800 });
+          AOS.init({ once: true, duration: 800, offset: 50 });
           window.AOS = AOS;
         }
         observer.unobserve(el);
       }
     });
-  }, { rootMargin: '400px' }); // Aumentamos el margen a 400px para que cargue mucho antes de llegar
+  }, { rootMargin: '400px' });
   
-  // Observar carruseles y elementos con AOS
-  const elements = document.querySelectorAll('.product-swiper, .category-swiper, .vestidos-swiper, .bannervestidos-swiper, .home-banner2-swiper, [data-aos]');
-  elements.forEach(el => observer.observe(el));
+  const selectors = '.product-swiper, .category-swiper, .vestidos-swiper, .bannervestidos-swiper, .home-banner2-swiper, .banner-vestidos-swiper, [data-aos]';
+  document.querySelectorAll(selectors).forEach(el => observer.observe(el));
 };
 
 // --- GLOBAL EVENTS ---
 const setupGlobalEvents = () => {
   document.body.addEventListener('click', (e) => {
-    const el = e.target.closest('a');
-    if (el && el.href && el.classList.contains('dgwt-wcas-suggestion')) {
-      window.location.href = el.href;
+    const target = e.target;
+    
+    // Asegurar que clics en "Vista rápida" no se pierdan
+    if (target.closest('button[class*="Vista rápida"]') || target.closest('[class*="quick-view"]')) {
+      return; 
     }
+
+    const link = target.closest('a');
+    if (link && link.href && link.classList.contains('dgwt-wcas-suggestion')) {
+      window.location.href = link.href;
+    }
+  });
+
+  // Forzar actualización de Swiper cuando todo carga (imágenes de LiteSpeed, etc.)
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.swiper').forEach(el => {
+      if (el.swiper) el.swiper.update();
+    });
   });
   
   const setupCartCount = () => {

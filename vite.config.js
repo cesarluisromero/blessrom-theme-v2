@@ -9,6 +9,18 @@ import { wordpressPlugin, wordpressThemeJson } from '@roots/vite-plugin';
 
 export default defineConfig({
   base: '/wp-content/themes/blessrom-theme/public/build/',
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-alpine': ['alpinejs', '@alpinejs/collapse'],
+          'vendor-swiper': ['swiper'],
+          'vendor-aos': ['aos'],
+          'vendor-nouislider': ['nouislider'],
+        },
+      },
+    },
+  },
   plugins: [
     tailwindcss(),
     laravel({

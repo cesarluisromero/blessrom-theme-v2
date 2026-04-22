@@ -291,8 +291,30 @@ const setupGlobalEvents = () => {
         if (updatedCart && target) target.textContent = updatedCart.textContent.trim();
       });
     };
-    document.body.addEventListener('added_to_cart', updateCartCount);
-    document.body.addEventListener('wc_fragments_refreshed', updateCartCount);
+    // Lazy load: solo actualizar cuando hay interacción real con el carrito
+    let cartInitialized = false;
+    const initCartCount = () => {
+      if (cartInitialized) return;
+      cartInitialized = true;
+      document.body.addEventListener('added_to_cart', updateCartCount);
+      document.body.addEventListener('wc_fragments_refreshed', updateCartCount);
+      // Actualizar inmediatamente al hacer click en botones de añadir al carrito
+      document.body.addEventListener('click', (e) => {
+        if (e.target.closest('.add_to_cart_button, [data添加到cart]')) {
+          updateCartCount();
+        }
+      });
+    };
+    // Cargar bajo demanda al hacer hover en el icono del carrito o al abrir la página de checkout
+    const cartIcon = document.querySelector('.cart-icon, .header-cart, #cart-count');
+    if (cartIcon) {
+      cartIcon.addEventListener('mouseenter', initCartCount, { once: true });
+      cartIcon.addEventListener('click', initCartCount, { once: true });
+    }
+    // También en páginas de checkout/cart
+    if (document.querySelector('.woocommerce-cart, .woocommerce-checkout')) {
+      initCartCount();
+    }
   };
   setupCartCount();
 };

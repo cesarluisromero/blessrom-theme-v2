@@ -186,16 +186,29 @@ const lazyLoadModules = () => {
     entries.forEach(async (entry) => {
       if (entry.isIntersecting) {
         const el = entry.target;
+        // Configuración específica por tipo de swiper
         if (el.classList.contains('product-swiper') || el.classList.contains('category-swiper') || el.classList.contains('vestidos-swiper')) {
           initSwiper(el, {
             slidesPerView: 6,
             spaceBetween: 18,
             autoplay: { delay: 3000 },
+            pagination: { clickable: true },
             navigation: {
               nextEl: el.closest('section')?.querySelector('[class*="-button-next"]'),
               prevEl: el.closest('section')?.querySelector('[class*="-button-prev"]'),
             },
-            breakpoints: { 0: { slidesPerView: 1 }, 640: { slidesPerView: 3 }, 1024: { slidesPerView: 6 } }
+            breakpoints: { 
+              0: { slidesPerView: 1, pagination: { enabled: true } }, 
+              640: { slidesPerView: 3 }, 
+              1024: { slidesPerView: 6, pagination: { enabled: false } } 
+            }
+          });
+        } else if (el.classList.contains('bannervestidos-swiper') || el.classList.contains('home-banner2-swiper')) {
+          initSwiper(el, {
+            slidesPerView: 1,
+            loop: true,
+            autoplay: { delay: 5000 },
+            pagination: { clickable: true, el: el.querySelector('.swiper-pagination') },
           });
         }
         if (el.hasAttribute('data-aos') && !window.AOS) {
@@ -207,8 +220,11 @@ const lazyLoadModules = () => {
         observer.unobserve(el);
       }
     });
-  }, { rootMargin: '100px' });
-  document.querySelectorAll('.product-swiper, .category-swiper, .vestidos-swiper, [data-aos]').forEach(el => observer.observe(el));
+  }, { rootMargin: '400px' }); // Aumentamos el margen a 400px para que cargue mucho antes de llegar
+  
+  // Observar carruseles y elementos con AOS
+  const elements = document.querySelectorAll('.product-swiper, .category-swiper, .vestidos-swiper, .bannervestidos-swiper, .home-banner2-swiper, [data-aos]');
+  elements.forEach(el => observer.observe(el));
 };
 
 // --- GLOBAL EVENTS ---

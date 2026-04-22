@@ -106,9 +106,14 @@ window.productGallery = function () {
       const { default: Swiper } = await import('swiper');
       const { Navigation, Pagination } = await import('swiper/modules');
 
+      const slideCount = this.$root.querySelectorAll('.swiper-slide').length;
+
       this.swiper = new Swiper(this.$root, {
         modules: [Navigation, Pagination],
-        loop: true,
+        loop: slideCount > 1,
+        watchOverflow: true,
+        observer: true,
+        observeParents: true,
         pagination: {
           el: this.$root.querySelector('.swiper-pagination'),
           clickable: true,
@@ -188,29 +193,34 @@ const lazyLoadModules = () => {
         const el = entry.target;
         // Configuración específica por tipo de swiper
         if (el.classList.contains('product-swiper') || el.classList.contains('category-swiper') || el.classList.contains('vestidos-swiper')) {
+          const slideCount = el.querySelectorAll('.swiper-slide').length;
           initSwiper(el, {
             slidesPerView: 6,
             spaceBetween: 18,
-            autoplay: { delay: 3000 },
+            loop: slideCount > 6, // Solo hacer loop si hay más de 6 slides
+            watchOverflow: true,
+            autoplay: slideCount > 6 ? { delay: 3000 } : false,
             pagination: { 
               el: el.querySelector('.swiper-pagination'),
-              clickable: true 
+              clickable: true,
+              dynamicBullets: true
             },
             navigation: {
               nextEl: el.closest('section')?.querySelector('[class*="-button-next"]'),
               prevEl: el.closest('section')?.querySelector('[class*="-button-prev"]'),
             },
             breakpoints: { 
-              0: { slidesPerView: 1, pagination: { enabled: true } }, 
-              640: { slidesPerView: 3 }, 
+              0: { slidesPerView: 1, pagination: { enabled: true }, loop: slideCount > 1, autoplay: slideCount > 1 }, 
+              640: { slidesPerView: 3, loop: slideCount > 3 }, 
               1024: { slidesPerView: 6, pagination: { enabled: false } } 
             }
           });
         } else if (el.classList.contains('bannervestidos-swiper') || el.classList.contains('home-banner2-swiper')) {
+          const slideCount = el.querySelectorAll('.swiper-slide').length;
           initSwiper(el, {
             slidesPerView: 1,
-            loop: true,
-            autoplay: { delay: 5000 },
+            loop: slideCount > 1,
+            autoplay: slideCount > 1 ? { delay: 5000 } : false,
             pagination: { clickable: true, el: el.querySelector('.swiper-pagination') },
           });
         }

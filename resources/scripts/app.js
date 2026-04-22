@@ -1,9 +1,16 @@
 import '../styles/app.css';
 import Alpine from 'alpinejs';
 import collapse from '@alpinejs/collapse';
+import Swiper from 'swiper';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import AOS from 'aos';
+import noUiSlider from 'nouislider';
+import 'nouislider/dist/nouislider.css';
+import 'aos/dist/aos.css';
 
-// Alpine setup
 Alpine.plugin(collapse);
+
+Swiper.use([Navigation, Pagination, Autoplay]);
 
 document.addEventListener('alpine:init', () => {
   const map = window.BLESSROM_COLOR_IMAGE_MAP;
@@ -15,21 +22,52 @@ document.addEventListener('alpine:init', () => {
   }
 });
 
-// --- SWIPER FACTORY (Lazy & Optimized) ---
-const initSwiper = async (container, options = {}) => {
-  if (!container) return;
-  const { default: Swiper } = await import('swiper');
-  const { Navigation, Pagination, Autoplay, Scrollbar } = await import('swiper');
+const initSwiper = (container, options = {}) => {
+  if (!container || container.swiper) return;
   
-  const defaultOptions = {
-    modules: [Navigation, Pagination, Autoplay, Scrollbar].filter(Boolean),
+  container.swiper = new Swiper(container, {
     observer: true,
     observeParents: true,
-  };
-  return new Swiper(container, { ...defaultOptions, ...options });
+    watchOverflow: true,
+    ...options
+  });
 };
 
-// --- ALPINE COMPONENTS ---
+const initAllSwipers = () => {
+  document.querySelectorAll('.product-swiper, .category-swiper, .vestidos-swiper').forEach(el => {
+    const slideCount = el.querySelectorAll('.swiper-slide').length;
+    if (slideCount <= 1) return;
+    
+    initSwiper(el, {
+      slidesPerView: 1,
+      spaceBetween: 18,
+      loop: true,
+      autoplay: { delay: 3000, disableOnInteraction: false },
+      pagination: { el: el.querySelector('.swiper-pagination'), clickable: true },
+      navigation: {
+        nextEl: el.closest('section')?.querySelector('[class*="-button-next"]'),
+        prevEl: el.closest('section')?.querySelector('[class*="-button-prev"]'),
+      },
+      breakpoints: { 0: { slidesPerView: 1 }, 640: { slidesPerView: 3 }, 1024: { slidesPerView: 6 } }
+    });
+  });
+  
+  document.querySelectorAll('.bannervestidos-swiper, .home-banner2-swiper, .banner-vestidos-swiper').forEach(el => {
+    const slideCount = el.querySelectorAll('.swiper-slide').length;
+    if (slideCount <= 1) return;
+    
+    initSwiper(el, {
+      slidesPerView: 1,
+      loop: true,
+      autoplay: { delay: 5000, disableOnInteraction: false },
+      pagination: { el: el.querySelector('.swiper-pagination'), clickable: true },
+      navigation: {
+        nextEl: el.querySelector('[class*="-button-next"]'),
+        prevEl: el.querySelector('[class*="-button-prev"]'),
+      }
+    });
+  });
+};
 
 window.alpineCart = function() {
     return {
@@ -56,7 +94,7 @@ window.alpineCart = function() {
                   const url = Alpine.store('product')?.colorImages?.[color];
                   if (url) Alpine.store('product').slideToImage(url);
               }
-          });
+            });
         },
 
         updateMaxQty() {
@@ -102,22 +140,16 @@ window.alpineCart = function() {
 window.productGallery = function () {
   return {
     swiper: null,
-    async init() {
-      const { default: Swiper } = await import('swiper');
-      const { Navigation, Pagination } = await import('swiper/modules');
-
+    init() {
       const slideCount = this.$root.querySelectorAll('.swiper-slide').length;
+      if (slideCount <= 1) return;
 
       this.swiper = new Swiper(this.$root, {
-        modules: [Navigation, Pagination],
-        loop: slideCount > 1,
+        loop: true,
         watchOverflow: true,
         observer: true,
         observeParents: true,
-        pagination: {
-          el: this.$root.querySelector('.swiper-pagination'),
-          clickable: true,
-        },
+        pagination: { el: this.$root.querySelector('.swiper-pagination'), clickable: true },
       });
 
       const normalizarUrlImagen = (url) => {
@@ -133,7 +165,6 @@ window.productGallery = function () {
         const objetivo = normalizarUrlImagen(targetUrl);
         let foundIndex = -1;
         const slides = this.swiper.slides;
-
         for (let i = 0; i < slides.length; i++) {
           const img = slides[i].querySelector('img');
           if (img && normalizarUrlImagen(img.currentSrc || img.src) === objetivo) {
@@ -141,190 +172,92 @@ window.productGallery = function () {
             break;
           }
         }
-
-        if (foundIndex >= 0) {
-          this.swiper.slideTo(foundIndex);
-        } else {
-          const active = this.swiper.slides[this.swiper.activeIndex];
-          const img = active && active.querySelector('img');
-          if (img) {
-            img.src = targetUrl;
-            this.swiper.update();
-          }
-        }
+        if (foundIndex >= 0) this.swiper.slideTo(foundIndex);
       };
     },
   };
 };
 
-// --- NO-UI-SLIDER (Lazy Load) ---
-const initPriceSlider = async () => {
+const initPriceSlider = () => {
   const slider = document.getElementById('price-slider');
   const minInput = document.getElementById('min_price');
   const maxInput = document.getElementById('max_price');
   if (!slider || !minInput || !maxInput) return;
 
-  const { default: noUiSlider } = await import('nouislider');
-  import('nouislider/dist/nouislider.css');
+  const min = parseInt(minInput.value) || 5;
+  const max = parseInt(maxInput.value) || 500;
 
   noUiSlider.create(slider, {
-    start: [parseFloat(minInput.value || 5), parseFloat(maxInput.value || 500)],
+    start: [min, max],
     connect: true,
-    range: { 'min': 5, 'max': 500 },
+    step: 1,
+    range: { min: 5, max: 500 },
     format: { to: v => Math.round(v), from: v => parseFloat(v) }
   });
 
   slider.noUiSlider.on('update', (values) => {
-    const [min, max] = values.map(v => Math.round(v));
-    minInput.value = min;
-    maxInput.value = max;
+    const [minVal, maxVal] = values.map(v => Math.round(v));
+    minInput.value = minVal;
+    maxInput.value = maxVal;
     const minLabel = document.getElementById('price-min-label');
     const maxLabel = document.getElementById('price-max-label');
-    if (minLabel) minLabel.innerText = `S/${min}`;
-    if (maxLabel) maxLabel.innerText = `S/${max}`;
+    if (minLabel) minLabel.innerText = `S/${minVal}`;
+    if (maxLabel) maxLabel.innerText = `S/${maxVal}`;
   });
 };
 
-// --- LAZY INITIALIZER ---
-const lazyLoadModules = () => {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(async (entry) => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        if (el.dataset.initialized) return;
-        el.dataset.initialized = 'true';
-
-        // Configuración para productos y categorías
-        if (el.classList.contains('product-swiper') || el.classList.contains('category-swiper') || el.classList.contains('vestidos-swiper')) {
-          const slideCount = el.querySelectorAll('.swiper-slide').length;
-          initSwiper(el, {
-            slidesPerView: 6,
-            spaceBetween: 18,
-            loop: slideCount > 6,
-            watchOverflow: true,
-            autoplay: slideCount > 6 ? { delay: 3000, disableOnInteraction: false } : false,
-            pagination: { 
-              el: el.querySelector('.swiper-pagination'),
-              clickable: true,
-              dynamicBullets: true
-            },
-            navigation: {
-              nextEl: el.closest('section')?.querySelector('[class*="-button-next"]'),
-              prevEl: el.closest('section')?.querySelector('[class*="-button-prev"]'),
-            },
-            breakpoints: { 
-              0: { slidesPerView: 1, loop: slideCount > 1, autoplay: slideCount > 1 }, 
-              640: { slidesPerView: 3, loop: slideCount > 3 }, 
-              1024: { slidesPerView: 6, pagination: { enabled: false } } 
-            }
-          }).catch(err => console.error('Swiper error:', err));
-        } 
-        // Configuración para banners principales
-        else if (el.classList.contains('bannervestidos-swiper') || el.classList.contains('home-banner2-swiper') || el.classList.contains('banner-vestidos-swiper')) {
-          const slideCount = el.querySelectorAll('.swiper-slide').length;
-          initSwiper(el, {
-            slidesPerView: 1,
-            loop: slideCount > 1,
-            watchOverflow: true,
-            autoplay: slideCount > 1 ? { delay: 5000, disableOnInteraction: false } : false,
-            pagination: { 
-              el: el.querySelector('.swiper-pagination'),
-              clickable: true 
-            },
-            navigation: {
-              nextEl: el.querySelector('[class*="-button-next"]'),
-              prevEl: el.querySelector('[class*="-button-prev"]'),
-            }
-          }).catch(err => console.error('Swiper error:', err));
-        }
-
-        if (el.hasAttribute('data-aos') && !window.AOS) {
-          const { default: AOS } = await import('aos');
-          import('aos/dist/aos.css');
-          AOS.init({ once: true, duration: 800, offset: 50 });
-          window.AOS = AOS;
-        }
-        observer.unobserve(el);
-      }
-    });
-  }, { rootMargin: '0px' }); // Sin margen para carga inmediata en viewport
-  
-  const selectors = '.product-swiper, .category-swiper, .vestidos-swiper, .bannervestidos-swiper, .home-banner2-swiper, .banner-vestidos-swiper, [data-aos]';
-  document.querySelectorAll(selectors).forEach(el => observer.observe(el));
-};
-
-// --- GLOBAL EVENTS ---
 const setupGlobalEvents = () => {
   document.body.addEventListener('click', (e) => {
     const target = e.target;
-    
-    // Asegurar que clics en "Vista rápida" no se pierdan
-    if (target.closest('button[class*="Vista rápida"]') || target.closest('[class*="quick-view"]')) {
-      return; 
-    }
-
+    if (target.closest('button[class*="Vista rápida"]') || target.closest('[class*="quick-view"]')) return;
     const link = target.closest('a');
-    if (link && link.href && link.classList.contains('dgwt-wcas-suggestion')) {
-      window.location.href = link.href;
-    }
+    if (link && link.href && link.classList.contains('dgwt-wcas-suggestion')) window.location.href = link.href;
   });
 
-  // Forzar actualización de Swiper cuando todo carga (imágenes de LiteSpeed, etc.)
   window.addEventListener('load', () => {
-    document.querySelectorAll('.swiper').forEach(el => {
-      if (el.swiper) el.swiper.update();
-    });
+    document.querySelectorAll('.swiper').forEach(el => { if (el.swiper) el.swiper.update(); });
   });
   
-  const setupCartCount = () => {
-    const updateCartCount = () => {
-      fetch('/blessrom/?wc-ajax=get_refreshed_fragments', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-      })
-      .then(r => r.json())
-      .then(data => {
-        const wrapper = document.createElement('div');
-        wrapper.innerHTML = data.fragments['div.widget_shopping_cart_content'];
-        const updatedCart = wrapper.querySelector('#cart-count');
-        const target = document.getElementById('cart-count');
-        if (updatedCart && target) target.textContent = updatedCart.textContent.trim();
-      });
-    };
-    // Lazy load: solo actualizar cuando hay interacción real con el carrito
-    let cartInitialized = false;
-    const initCartCount = () => {
-      if (cartInitialized) return;
-      cartInitialized = true;
-      document.body.addEventListener('added_to_cart', updateCartCount);
-      document.body.addEventListener('wc_fragments_refreshed', updateCartCount);
-      // Actualizar inmediatamente al hacer click en botones de añadir al carrito
-      document.body.addEventListener('click', (e) => {
-        if (e.target.closest('.add_to_cart_button, [data添加到cart]')) {
-          updateCartCount();
-        }
-      });
-    };
-    // Cargar bajo demanda al hacer hover en el icono del carrito o al abrir la página de checkout
-    const cartIcon = document.querySelector('.cart-icon, .header-cart, #cart-count');
-    if (cartIcon) {
-      cartIcon.addEventListener('mouseenter', initCartCount, { once: true });
-      cartIcon.addEventListener('click', initCartCount, { once: true });
-    }
-    // También en páginas de checkout/cart
-    if (document.querySelector('.woocommerce-cart, .woocommerce-checkout')) {
-      initCartCount();
-    }
+  const updateCartCount = () => {
+    fetch('/blessrom/?wc-ajax=get_refreshed_fragments', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    })
+    .then(r => r.json())
+    .then(data => {
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = data.fragments['div.widget_shopping_cart_content'];
+      const updatedCart = wrapper.querySelector('#cart-count');
+      const target = document.getElementById('cart-count');
+      if (updatedCart && target) target.textContent = updatedCart.textContent.trim();
+    });
   };
-  setupCartCount();
+
+  let cartInitialized = false;
+  const initCartCount = () => {
+    if (cartInitialized) return;
+    cartInitialized = true;
+    document.body.addEventListener('added_to_cart', updateCartCount);
+    document.body.addEventListener('wc_fragments_refreshed', updateCartCount);
+    document.body.addEventListener('click', (e) => {
+      if (e.target.closest('.add_to_cart_button')) updateCartCount();
+    });
+  };
+
+  const cartIcon = document.querySelector('.cart-icon, .header-cart, #cart-count');
+  if (cartIcon) {
+    cartIcon.addEventListener('mouseenter', initCartCount, { once: true });
+    cartIcon.addEventListener('click', initCartCount, { once: true });
+  }
+  if (document.querySelector('.woocommerce-cart, .woocommerce-checkout')) initCartCount();
 };
 
-// Start
 window.Alpine = Alpine;
 Alpine.start();
 
 document.addEventListener('DOMContentLoaded', () => {
-  lazyLoadModules();
+  AOS.init({ once: true, duration: 800 });
+  initAllSwipers();
   setupGlobalEvents();
   initPriceSlider();
   
@@ -336,4 +269,8 @@ document.addEventListener('DOMContentLoaded', () => {
       menu.classList.toggle('animate-slide-in');
     });
   }
+});
+
+window.addEventListener('load', () => {
+  setTimeout(initAllSwipers, 100);
 });

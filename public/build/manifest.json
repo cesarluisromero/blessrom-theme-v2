@@ -1,12 +1,4 @@
 {
-  "_aos-BzsWJ6iI.js": {
-    "file": "assets/aos-BzsWJ6iI.js",
-    "name": "aos",
-    "isDynamicEntry": true,
-    "imports": [
-      "_vendor-aos-JupvBk5m.js"
-    ]
-  },
   "_vendor-alpine-BjX3vnq1.js": {
     "file": "assets/vendor-alpine-BjX3vnq1.js",
     "name": "vendor-alpine"
@@ -15,56 +7,31 @@
     "file": "assets/vendor-aos-JupvBk5m.js",
     "name": "vendor-aos"
   },
-  "_vendor-swiper-bnGNzo_9.js": {
-    "file": "assets/vendor-swiper-bnGNzo_9.js",
-    "name": "vendor-swiper",
-    "isDynamicEntry": true
+  "_vendor-nouislider--DU6hECO.js": {
+    "file": "assets/vendor-nouislider--DU6hECO.js",
+    "name": "vendor-nouislider"
+  },
+  "_vendor-swiper-BxSOnfrm.js": {
+    "file": "assets/vendor-swiper-BxSOnfrm.js",
+    "name": "vendor-swiper"
   },
   "editor.deps.json": {
     "file": "assets/editor.deps-DxpY22xl.json",
     "src": "editor.deps.json"
   },
-  "node_modules/aos/dist/aos.css": {
-    "file": "assets/aos-DvB2Xm2x.css",
-    "src": "node_modules/aos/dist/aos.css"
-  },
-  "node_modules/nouislider/dist/nouislider.css": {
-    "file": "assets/nouislider-DxSIxjtm.css",
-    "src": "node_modules/nouislider/dist/nouislider.css"
-  },
-  "node_modules/nouislider/dist/nouislider.mjs": {
-    "file": "assets/vendor-nouislider-gVPpAxz6.js",
-    "name": "vendor-nouislider",
-    "src": "node_modules/nouislider/dist/nouislider.mjs",
-    "isDynamicEntry": true
-  },
-  "node_modules/swiper/modules/index.mjs": {
-    "file": "assets/index-mhq4UFtX.js",
-    "name": "index",
-    "src": "node_modules/swiper/modules/index.mjs",
-    "isDynamicEntry": true,
-    "imports": [
-      "_vendor-swiper-bnGNzo_9.js"
-    ]
-  },
   "resources/scripts/app.js": {
-    "file": "assets/app-BI-0e0Xe.js",
+    "file": "assets/app-CNLLwlTO.js",
     "name": "app",
     "src": "resources/scripts/app.js",
     "isEntry": true,
     "imports": [
-      "_vendor-alpine-BjX3vnq1.js"
-    ],
-    "dynamicImports": [
-      "_vendor-swiper-bnGNzo_9.js",
-      "_vendor-swiper-bnGNzo_9.js",
-      "_vendor-swiper-bnGNzo_9.js",
-      "node_modules/swiper/modules/index.mjs",
-      "node_modules/nouislider/dist/nouislider.mjs",
-      "_aos-BzsWJ6iI.js"
+      "_vendor-alpine-BjX3vnq1.js",
+      "_vendor-swiper-BxSOnfrm.js",
+      "_vendor-aos-JupvBk5m.js",
+      "_vendor-nouislider--DU6hECO.js"
     ],
     "css": [
-      "assets/app-DxOL0aTt.css"
+      "assets/app-Df8Z_mPl.css"
     ]
   },
   "resources/scripts/editor.js": {

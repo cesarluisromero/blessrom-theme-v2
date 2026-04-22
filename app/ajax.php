@@ -78,6 +78,43 @@ function custom_search_handler() {
         }
     }
 
+    // --- INTEGRACIÓN DE IA (Búsqueda Semántica) ---
+    // Si tenemos pocos resultados o queremos enriquecer la búsqueda
+    $ai_args = [
+        'headers' => ['Content-Type' => 'application/json'],
+        'body'    => json_encode(['query' => $query, 'limit' => 3, 'minScore' => 0.5]),
+        'method'  => 'POST',
+        'timeout' => 5,
+    ];
+
+    $ai_response = wp_remote_post('http://77.37.43.158/ia-search', $ai_args);
+
+    if (!is_wp_error($ai_response)) {
+        $ai_body = wp_remote_retrieve_body($ai_response);
+        $ai_data = json_decode($ai_body, true);
+
+        if (isset($ai_data['results']) && !empty($ai_data['results'])) {
+            foreach ($ai_data['results'] as $ai_prod) {
+                // Evitar duplicados si ya lo encontró WP
+                $exists = false;
+                foreach ($results as $res) {
+                    if ($res['id'] == $ai_prod['id']) { $exists = true; break; }
+                }
+
+                if (!$exists) {
+                    $results[] = [
+                        'id'    => $ai_prod['id'],
+                        'title' => $ai_prod['name'],
+                        'url'   => $ai_prod['url'],
+                        'type'  => 'Sugerencia IA ✨',
+                        'image' => !empty($ai_prod['imageUrl']) ? $ai_prod['imageUrl'] : wc_placeholder_img_src(),
+                    ];
+                }
+            }
+        }
+    }
+    // --- FIN INTEGRACIÓN IA ---
+
     wp_send_json($results);
     wp_die();
 }

@@ -6,10 +6,11 @@ import { wordpressPlugin, wordpressThemeJson } from '@roots/vite-plugin';
 
 
 
-
 export default defineConfig({
   base: '/wp-content/themes/blessrom-theme/public/build/',
   build: {
+    minify: 'esbuild',
+    cssMinify: true,
     rollupOptions: {
       output: {
         manualChunks: {
@@ -18,6 +19,9 @@ export default defineConfig({
           'vendor-aos': ['aos'],
           'vendor-nouislider': ['nouislider'],
         },
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]',
       },
     },
   },

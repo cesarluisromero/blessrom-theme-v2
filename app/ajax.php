@@ -105,7 +105,7 @@ function custom_search_handler() {
                     $results[] = [
                         'id'    => $ai_prod['id'],
                         'title' => $ai_prod['name'],
-                        'url'   => $ai_prod['url'],
+                        'url'   => $ai_prod['url'], // Usamos la URL completa que ya viene de la IA
                         'type'  => 'Sugerencia IA ✨',
                         'image' => !empty($ai_prod['imageUrl']) ? $ai_prod['imageUrl'] : wc_placeholder_img_src(),
                     ];

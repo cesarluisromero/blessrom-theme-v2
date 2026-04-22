@@ -192,7 +192,10 @@ const lazyLoadModules = () => {
             slidesPerView: 6,
             spaceBetween: 18,
             autoplay: { delay: 3000 },
-            pagination: { clickable: true },
+            pagination: { 
+              el: el.querySelector('.swiper-pagination'),
+              clickable: true 
+            },
             navigation: {
               nextEl: el.closest('section')?.querySelector('[class*="-button-next"]'),
               prevEl: el.closest('section')?.querySelector('[class*="-button-prev"]'),

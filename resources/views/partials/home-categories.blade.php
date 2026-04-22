@@ -39,7 +39,7 @@ function get_random_product_image_from_category($category_id) {
           <p class="mt-1 text-sm text-slate-600">Lo mejor para ti aquí</p>
           <span class="mt-2 h-0.5 w-16 bg-[#FFB816] mx-auto"></span>
         </header>
-    <div class="swiper category-swiper">
+    <div class="swiper category-swiper min-h-[300px]">
       <div class="swiper-wrapper">
         @foreach($categories as $cat)          
           @php 
@@ -86,6 +86,8 @@ function get_random_product_image_from_category($category_id) {
       {{-- Flechas de navegación --}}
       <div class="swiper-button-prev category-swiper-button-prev !hidden md:!flex text-white absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 items-center justify-center bg-transparent rounded-full"></div>
       <div class="swiper-button-next category-swiper-button-next !hidden md:!flex text-white absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 items-center justify-center bg-transparent rounded-full"></div>
+      {{-- Paginación (puntos) para móvil --}}
+      <div class="swiper-pagination category-swiper-pagination md:hidden !bottom-0"></div>
     </div>
   </div>
   </div>

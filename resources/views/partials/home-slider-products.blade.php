@@ -22,7 +22,7 @@ $products = wc_get_products([
         <p class="mt-1 text-sm text-slate-600">Lo último en nuestra tienda</p>
         <span class="mt-2 h-0.5 w-16 bg-[#FFB816] mx-auto"></span>  
       </header>
-      <div class="swiper product-swiper overflow-visible">
+      <div class="swiper product-swiper overflow-visible min-h-[300px]">
         <!-- Contenedor de slides -->
         <div class="swiper-wrapper">
           @foreach($products as $product)
@@ -45,7 +45,7 @@ $products = wc_get_products([
         <!-- Botones -->
         <div class="swiper-button-prev product-swiper-button-prev !hidden md:!flex text-white absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 items-center justify-center bg-transparent rounded-full"></div>
         <div class="swiper-button-next product-swiper-button-next !hidden md:!flex text-white absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 items-center justify-center bg-transparent rounded-full"></div>
-          
+        <div class="swiper-pagination product-swiper-pagination md:hidden !bottom-0"></div>
       </div>
     </div>
   </div>
@@ -63,7 +63,7 @@ $products = wc_get_products([
         <p class="mt-1 text-sm text-slate-600">Lo último en nuestra tienda</p>
         <span class="mt-2 h-0.5 w-16 bg-[#FFB816] mx-auto"></span>  
       </header>
-      <div class="swiper product-swiper overflow-visible">
+      <div class="swiper product-swiper overflow-visible min-h-[300px]">
         <!-- Contenedor de slides -->
         <div class="swiper-wrapper">
           @foreach ($products as $product)
@@ -109,7 +109,7 @@ $products = wc_get_products([
         <!-- Botones -->
         <div class="swiper-button-prev product-swiper-button-prev !hidden md:!flex text-white absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 items-center justify-center bg-transparent rounded-full"></div>
         <div class="swiper-button-next product-swiper-button-next !hidden md:!flex text-white absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 items-center justify-center bg-transparent rounded-full"></div>
-          
+        <div class="swiper-pagination product-swiper-pagination md:hidden !bottom-0"></div>
       </div>
     </div>
   </div>

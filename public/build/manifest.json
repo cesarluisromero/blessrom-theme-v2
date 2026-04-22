@@ -20,7 +20,7 @@
     "src": "editor.deps.json"
   },
   "resources/scripts/app.js": {
-    "file": "assets/app-ByevOz91.js",
+    "file": "assets/app-sFIlPcbV.js",
     "name": "app",
     "src": "resources/scripts/app.js",
     "isEntry": true,
@@ -31,7 +31,7 @@
       "_vendor-nouislider--DU6hECO.js"
     ],
     "css": [
-      "assets/app-Df8Z_mPl.css"
+      "assets/app-Ckxin3dr.css"
     ]
   },
   "resources/scripts/editor.js": {

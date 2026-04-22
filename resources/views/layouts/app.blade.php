@@ -21,7 +21,7 @@
     @php(wp_head()) 
   </head>
 
-  <body class="m-0 p-0 bg-[#f0f0f0]" @php(body_class())>
+  <body class="m-0 p-0 bg-[#f0f0f0]" @php(body_class()) data-product-id="{{ is_product() ? get_the_ID() : '' }}">
     @php(wp_body_open())
 
     <div id="app" class="w-full">
@@ -43,6 +43,7 @@
 
       @include('sections.footer')
       @include('partials.quick-view-modal')
+      @include('partials.chat-widget')
     </div>
     @php(do_action('get_footer'))    
     

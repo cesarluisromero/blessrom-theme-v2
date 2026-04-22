@@ -229,3 +229,135 @@ function semantic_search_handler() {
 
     wp_die();
 }
+
+// --- CHAT INTELIGENTE WEB ---
+add_action('wp_ajax_web_chat', 'web_chat_handler');
+add_action('wp_ajax_nopriv_web_chat', 'web_chat_handler');
+
+function web_chat_handler() {
+    $session_id = sanitize_text_field($_POST['session_id'] ?? '');
+    $message = sanitize_text_field($_POST['message'] ?? '');
+    $product_id = sanitize_text_field($_POST['product_id'] ?? '');
+
+    if (empty($message)) {
+        wp_send_json_error('Mensaje vacío');
+    }
+
+    $body = [
+        'sessionId' => $session_id,
+        'message' => $message,
+    ];
+
+    if (!empty($product_id)) {
+        $body['currentProductId'] = $product_id;
+    }
+
+    $response = wp_remote_post('http://77.37.43.158/web-chat', [
+        'headers' => [
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ],
+        'body' => json_encode($body),
+        'timeout' => 15,
+        'data_format' => 'body',
+    ]);
+
+    if (is_wp_error($response)) {
+        wp_send_json_error('Error de conexión con el asistente: ' . $response->get_error_message());
+    }
+
+    $data = json_decode(wp_remote_retrieve_body($response), true);
+
+    // Enriquecer las tarjetas de producto con URLs de "Agregar al carrito"
+    if (!empty($data['products'])) {
+        foreach ($data['products'] as &$product) {
+            $wc_product = wc_get_product(intval($product['id']));
+            if ($wc_product) {
+                $product['addToCartUrl'] = $wc_product->add_to_cart_url();
+                $product['permalink'] = get_permalink($wc_product->get_id());
+                $product['priceHtml'] = $wc_product->get_price_html();
+                // Usar imagen de WP si la del índice no existe
+                if (empty($product['imageUrl'])) {
+                    $product['imageUrl'] = wp_get_attachment_image_url($wc_product->get_image_id(), 'thumbnail');
+                }
+            }
+        }
+    }
+
+    wp_send_json_success($data);
+    wp_die();
+}
+
+// --- RECOMENDACIONES DE PRODUCTOS ---
+add_action('wp_ajax_product_recommendations', 'product_recommendations_handler');
+add_action('wp_ajax_nopriv_product_recommendations', 'product_recommendations_handler');
+
+function product_recommendations_handler() {
+    $product_id = sanitize_text_field($_GET['product_id'] ?? '');
+    $limit = intval($_GET['limit'] ?? 4);
+    $price_range = floatval($_GET['price_range'] ?? 0); // ±rango de precio
+
+    if (empty($product_id)) {
+        wp_send_json_error('Product ID requerido');
+    }
+
+    // Obtener el nombre del producto actual para buscar similares por semántica
+    $product = wc_get_product(intval($product_id));
+    if (!$product) {
+        wp_send_json_error('Producto no encontrado');
+    }
+
+    $query = $product->get_name() . ' ' . wp_strip_all_tags($product->get_short_description());
+    $current_price = floatval($product->get_price());
+
+    $response = wp_remote_post('http://77.37.43.158/ia-search', [
+        'headers' => ['Content-Type' => 'application/json'],
+        'body' => json_encode([
+            'query' => $query,
+            'limit' => $limit + 5, // Pedimos extras para filtrar por precio
+            'minScore' => 0.4,
+        ]),
+        'timeout' => 10,
+    ]);
+
+    if (is_wp_error($response)) {
+        wp_send_json_error('Error obteniendo recomendaciones');
+    }
+
+    $data = json_decode(wp_remote_retrieve_body($response), true);
+    $recommendations = [];
+
+    if (!empty($data['results'])) {
+        foreach ($data['results'] as $item) {
+            // Excluir el producto actual
+            if ($item['id'] == $product_id) continue;
+
+            // Filtro de precio: si se especificó un rango, solo incluir productos en rango
+            if ($price_range > 0 && !empty($item['price'])) {
+                $item_price = floatval($item['price']);
+                if ($item_price < ($current_price - $price_range) || $item_price > ($current_price + $price_range)) {
+                    continue;
+                }
+            }
+
+            // Enriquecer con datos de WooCommerce
+            $wc_item = wc_get_product(intval($item['id']));
+            if ($wc_item) {
+                $recommendations[] = [
+                    'id' => $item['id'],
+                    'name' => $wc_item->get_name(),
+                    'imageUrl' => wp_get_attachment_image_url($wc_item->get_image_id(), 'medium'),
+                    'url' => get_permalink($wc_item->get_id()),
+                    'priceHtml' => $wc_item->get_price_html(),
+                    'addToCartUrl' => $wc_item->add_to_cart_url(),
+                    'score' => $item['score'] ?? 0,
+                ];
+            }
+
+            if (count($recommendations) >= $limit) break;
+        }
+    }
+
+    wp_send_json_success($recommendations);
+    wp_die();
+}

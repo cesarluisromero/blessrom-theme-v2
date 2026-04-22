@@ -5,16 +5,20 @@
     loading: false,
     semanticLoading: false,
     show: false,
+    aiAnswer: '',
+    aiLoading: false,
     search() {
         if (this.query.length < 3) {
             this.results = []
             this.semanticResults = []
+            this.aiAnswer = ''
             this.show = false
             return
         }
         this.loading = true
         this.semanticLoading = true
         this.show = true
+        this.aiAnswer = ''
 
         // 1. Búsqueda Estándar (WordPress)
         fetch(`{{ admin_url('admin-ajax.php') }}?action=custom_search&query=${this.query}`)
@@ -43,6 +47,29 @@
             console.error('Error IA:', err)
             this.semanticLoading = false
         })
+
+        // 3. Respuesta Rápida IA
+        this.getSmartAnswer()
+    },
+    getSmartAnswer() {
+        this.aiLoading = true;
+        const formData = new FormData();
+        formData.append('action', 'web_chat');
+        formData.append('message', `Resumen rápido para búsqueda: ${this.query}`);
+        formData.append('session_id', 'search-session');
+
+        fetch('{{ admin_url('admin-ajax.php') }}', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                this.aiAnswer = data.data.message;
+            }
+            this.aiLoading = false;
+        })
+        .catch(() => this.aiLoading = false);
     },
     groupByType(items) {
         // Combinamos resultados normales y de IA
@@ -74,7 +101,27 @@
   </div>
 
   <!-- Resultados desplegables con separadores -->
-  <div x-show="show" x-cloak class="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-b-md mt-1 shadow-lg z-50 max-h-[400px] overflow-y-auto">
+  <div x-show="show" x-cloak class="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-b-md mt-1 shadow-lg z-50 max-h-[500px] overflow-y-auto">
+    
+    <!-- Respuesta Inteligente IA -->
+    <div x-show="aiAnswer || aiLoading" class="p-4 bg-blue-50/50 border-b border-blue-100">
+        <div class="flex items-center gap-2 mb-2">
+            <span class="flex h-2 w-2 relative">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+            </span>
+            <span class="text-[10px] font-bold text-blue-600 uppercase tracking-widest">Respuesta Inteligente</span>
+        </div>
+        <template x-if="aiLoading">
+            <div class="flex gap-1">
+                <div class="w-1.5 h-1.5 bg-blue-300 rounded-full animate-bounce"></div>
+                <div class="w-1.5 h-1.5 bg-blue-300 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                <div class="w-1.5 h-1.5 bg-blue-300 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+            </div>
+        </template>
+        <div x-show="!aiLoading" class="text-sm text-gray-700 leading-relaxed italic" x-text="aiAnswer"></div>
+    </div>
+
     <template x-if="loading">
       <div class="p-4 text-gray-500 text-sm">Buscando...</div>
     </template>

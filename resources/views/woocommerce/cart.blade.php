@@ -114,5 +114,21 @@
 
             @php do_action('woocommerce_cart_actions'); @endphp
         </form>
+
+        {{-- Recomendaciones IA basadas en el primer producto del carrito --}}
+        @php
+            $cart_items = WC()->cart->get_cart();
+            $first_item = reset($cart_items);
+            $seed_product = $first_item ? $first_item['data'] : null;
+        @endphp
+
+        @if ($seed_product)
+            <div class="mt-16 border-t pt-10">
+                @include('partials.product-recommendations', [
+                    'seedProductId' => $seed_product->get_id(),
+                    'seedProductPrice' => $seed_product->get_price()
+                ])
+            </div>
+        @endif
     @endif
 </div>

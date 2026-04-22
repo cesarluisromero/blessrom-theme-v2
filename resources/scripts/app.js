@@ -25,19 +25,20 @@ document.addEventListener('alpine:init', () => {
 const initSwiper = (container, options = {}) => {
   if (!container || container.swiper) return;
   
+  const slides = container.querySelectorAll('.swiper-slide');
+  if (slides.length <= 1) return;
+  
   container.swiper = new Swiper(container, {
     observer: true,
     observeParents: true,
     watchOverflow: true,
+    resizeObserver: true,
     ...options
   });
 };
 
 const initAllSwipers = () => {
   document.querySelectorAll('.product-swiper, .category-swiper, .vestidos-swiper').forEach(el => {
-    const slideCount = el.querySelectorAll('.swiper-slide').length;
-    if (slideCount <= 1) return;
-    
     initSwiper(el, {
       slidesPerView: 1,
       spaceBetween: 18,
@@ -53,9 +54,6 @@ const initAllSwipers = () => {
   });
   
   document.querySelectorAll('.bannervestidos-swiper, .home-banner2-swiper, .banner-vestidos-swiper').forEach(el => {
-    const slideCount = el.querySelectorAll('.swiper-slide').length;
-    if (slideCount <= 1) return;
-    
     initSwiper(el, {
       slidesPerView: 1,
       loop: true,

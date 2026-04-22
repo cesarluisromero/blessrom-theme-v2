@@ -15,8 +15,8 @@
     "file": "assets/vendor-aos-JupvBk5m.js",
     "name": "vendor-aos"
   },
-  "_vendor-swiper-sP1huWzR.js": {
-    "file": "assets/vendor-swiper-sP1huWzR.js",
+  "_vendor-swiper-bnGNzo_9.js": {
+    "file": "assets/vendor-swiper-bnGNzo_9.js",
     "name": "vendor-swiper",
     "isDynamicEntry": true
   },
@@ -39,16 +39,16 @@
     "isDynamicEntry": true
   },
   "node_modules/swiper/modules/index.mjs": {
-    "file": "assets/index-E3WHc0FR.js",
+    "file": "assets/index-mhq4UFtX.js",
     "name": "index",
     "src": "node_modules/swiper/modules/index.mjs",
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-swiper-sP1huWzR.js"
+      "_vendor-swiper-bnGNzo_9.js"
     ]
   },
   "resources/scripts/app.js": {
-    "file": "assets/app-CJp-YZBU.js",
+    "file": "assets/app-BI-0e0Xe.js",
     "name": "app",
     "src": "resources/scripts/app.js",
     "isEntry": true,
@@ -56,15 +56,15 @@
       "_vendor-alpine-BjX3vnq1.js"
     ],
     "dynamicImports": [
-      "_vendor-swiper-sP1huWzR.js",
-      "node_modules/swiper/modules/index.mjs",
-      "_vendor-swiper-sP1huWzR.js",
+      "_vendor-swiper-bnGNzo_9.js",
+      "_vendor-swiper-bnGNzo_9.js",
+      "_vendor-swiper-bnGNzo_9.js",
       "node_modules/swiper/modules/index.mjs",
       "node_modules/nouislider/dist/nouislider.mjs",
       "_aos-BzsWJ6iI.js"
     ],
     "css": [
-      "assets/app-BbAPnFi8.css"
+      "assets/app-DxOL0aTt.css"
     ]
   },
   "resources/scripts/editor.js": {
@@ -74,12 +74,12 @@
     "isEntry": true
   },
   "resources/styles/app.css": {
-    "file": "assets/app-BbAPnFi8.css",
+    "file": "assets/app-DxOL0aTt.css",
     "src": "resources/styles/app.css",
     "isEntry": true
   },
   "resources/styles/editor.css": {
-    "file": "assets/editor-Do9qTb9C.css",
+    "file": "assets/editor-JiEHxz5i.css",
     "src": "resources/styles/editor.css",
     "isEntry": true
   }

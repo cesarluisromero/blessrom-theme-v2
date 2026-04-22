@@ -49,11 +49,6 @@
           "color": "oklch(50.5% .213 27.518)"
         },
         {
-          "name": "Amber (50)",
-          "slug": "amber-50",
-          "color": "oklch(98.7% .022 95.277)"
-        },
-        {
           "name": "Amber (100)",
           "slug": "amber-100",
           "color": "oklch(96.2% .059 95.617)"
@@ -167,16 +162,6 @@
           "name": "Blue (700)",
           "slug": "blue-700",
           "color": "oklch(48.8% .243 264.376)"
-        },
-        {
-          "name": "Blue (800)",
-          "slug": "blue-800",
-          "color": "oklch(42.4% .199 265.638)"
-        },
-        {
-          "name": "Blue (950)",
-          "slug": "blue-950",
-          "color": "oklch(28.2% .091 267.935)"
         },
         {
           "name": "Indigo (50)",

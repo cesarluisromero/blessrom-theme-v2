@@ -19,10 +19,10 @@ document.addEventListener('alpine:init', () => {
 const initSwiper = async (container, options = {}) => {
   if (!container) return;
   const { default: Swiper } = await import('swiper');
-  const { Navigation, Pagination, Autoplay, Scrollbar } = await import('swiper/modules');
+  const { Navigation, Pagination, Autoplay, Scrollbar } = await import('swiper');
   
   const defaultOptions = {
-    modules: [Navigation, Pagination, Autoplay, Scrollbar],
+    modules: [Navigation, Pagination, Autoplay, Scrollbar].filter(Boolean),
     observer: true,
     observeParents: true,
   };
@@ -217,7 +217,7 @@ const lazyLoadModules = () => {
               640: { slidesPerView: 3, loop: slideCount > 3 }, 
               1024: { slidesPerView: 6, pagination: { enabled: false } } 
             }
-          });
+          }).catch(err => console.error('Swiper error:', err));
         } 
         // Configuración para banners principales
         else if (el.classList.contains('bannervestidos-swiper') || el.classList.contains('home-banner2-swiper') || el.classList.contains('banner-vestidos-swiper')) {
@@ -235,7 +235,7 @@ const lazyLoadModules = () => {
               nextEl: el.querySelector('[class*="-button-next"]'),
               prevEl: el.querySelector('[class*="-button-prev"]'),
             }
-          });
+          }).catch(err => console.error('Swiper error:', err));
         }
 
         if (el.hasAttribute('data-aos') && !window.AOS) {
@@ -247,7 +247,7 @@ const lazyLoadModules = () => {
         observer.unobserve(el);
       }
     });
-  }, { rootMargin: '400px' });
+  }, { rootMargin: '0px' }); // Sin margen para carga inmediata en viewport
   
   const selectors = '.product-swiper, .category-swiper, .vestidos-swiper, .bannervestidos-swiper, .home-banner2-swiper, .banner-vestidos-swiper, [data-aos]';
   document.querySelectorAll(selectors).forEach(el => observer.observe(el));

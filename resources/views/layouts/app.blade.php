@@ -15,7 +15,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
      @vite([
-      'resources/styles/app.css',
       'resources/scripts/app.js',
     ])
     @stack('styles')
@@ -48,53 +47,6 @@
     @php(do_action('get_footer'))    
     
     @stack('scripts') 
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        document.body.addEventListener('click', function (e) {
-          const el = e.target.closest('a');
-          if (el && el.href && el.classList.contains('dgwt-wcas-suggestion')) {
-            window.location.href = el.href;
-          }
-        });
-      });
-    </script>
-
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        const minInput = document.getElementById('min_price');
-        const maxInput = document.getElementById('max_price');
-        const slider = document.getElementById('price-slider');
-
-        if (minInput && maxInput && slider) {
-          const minPrice = parseFloat(minInput.value || 5);
-          const maxPrice = parseFloat(maxInput.value || 500);
-          const minLabel = document.getElementById('price-min-label');
-          const maxLabel = document.getElementById('price-max-label');
-
-          noUiSlider.create(slider, {
-            start: [minPrice, maxPrice],
-            connect: true,
-            step: 1,
-            range: {
-              'min': 5,
-              'max': 500
-            },
-            format: {
-              to: value => Math.round(value),
-              from: value => parseFloat(value)
-            }
-          });
-
-          slider.noUiSlider.on('update', function (values, handle) {
-              const [min, max] = values.map(v => Math.round(v));
-              minInput.value = min;
-              maxInput.value = max;
-              if (minLabel) minLabel.innerText = `S/${min}`;
-              if (maxLabel) maxLabel.innerText = `S/${max}`;
-          });
-        }  
-      });
-    </script>   
     
     @php(wp_footer())    
   </body>

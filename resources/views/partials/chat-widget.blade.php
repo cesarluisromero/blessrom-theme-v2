@@ -46,7 +46,7 @@
                                         <img :src="product.imageUrl" class="w-16 h-16 object-cover rounded-lg flex-shrink-0" alt="">
                                         <div class="flex flex-col justify-between overflow-hidden text-left">
                                             <a :href="product.permalink" class="font-bold text-xs text-black truncate hover:underline" x-text="product.name"></a>
-                                            <span class="text-xs font-bold text-yellow-600" x-text="product.priceFormatted"></span>
+                                            <span class="text-xs font-bold text-yellow-600" x-html="product.priceFormatted"></span>
                                             <button @click="addToCart(product.id)" 
                                                     class="bg-black text-white text-[10px] py-1 px-2 rounded-lg hover:bg-gray-800 transition flex items-center justify-center gap-1">
                                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>

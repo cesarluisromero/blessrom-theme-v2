@@ -3,16 +3,22 @@ defined('ABSPATH') || exit;
 
 global $product;
 
-// Filtrar variaciones con disponibilidad válida (no vacía y stock > 0)
+// debug: mostrar info de variaciones
+$debug_info = [
+    'total_variations' => count($available_variations),
+    'product_id' => $product->get_id(),
+    'product_name' => $product->get_name(),
+];
+
+// Filtrar variaciones (temporalmente放宽 para debug)
+// Nota: Si no hay stock, igual mostrar tallas para que el usuario pueda ver opciones
 $filtered_variations = array_filter($available_variations, function ($variation) {
-    if (empty($variation['availability_html'])) return false;
-
-    if (preg_match('/(\d+)/', $variation['availability_html'], $matches)) {
-        return intval($matches[1]) > 0;
-    }
-
-    return false;
+    // MOSTRAR TODAS LAS VARIACIONES sin filtro de stock
+    // Esto permite ver las tallas aunque no haya stock
+    return !empty($variation['variation_id']);
 });
+
+$debug_info['filtered_count'] = count($filtered_variations);
 
 $filtered_variations_json = wp_json_encode(array_values($filtered_variations));
 $variations_attr = function_exists('wc_esc_json')
@@ -153,10 +159,17 @@ foreach ($available_variations as $v) {
         <div class="flex flex-wrap gap-2">
             <?php
             $terms_talla = wc_get_product_terms($product->get_id(), 'pa_talla', ['fields' => 'all']);
-            foreach ($terms_talla as $term) :
-                $label = $term->name;
-                $slug_value = $term->slug;
+            // Debug: mostrar info
+            $debug_info['talla_terms_count'] = count($terms_talla);
             ?>
+            <?php if (empty($terms_talla)) : ?>
+                <p class="text-red-500 text-sm">No hay tallas disponibles para este producto.</p>
+                <script>console.log('DEBUG: No hay términos de pa_talla', <?= json_encode($debug_info) ?>);</script>
+            <?php else : ?>
+                <?php foreach ($terms_talla as $term) :
+                    $label = $term->name;
+                    $slug_value = $term->slug;
+                ?>
                 <button
                     type="button"
                     @click="selected_pa_talla = '<?= esc_js($slug_value) ?>'; selected_pa_color = ''; errorMessage = ''; updateMaxQty()"
@@ -167,9 +180,11 @@ foreach ($available_variations as $v) {
                 >
                     <?= esc_html($label) ?>
                 </button>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
         <input type="hidden" name="attribute_pa_talla" :value="selected_pa_talla" required>
+        <script>console.log('DEBUG talla:', <?= json_encode($debug_info) ?>);</script>
     </div>
 
     <div class="mb-4" x-show="selected_pa_talla" x-transition>

@@ -283,6 +283,7 @@ function web_chat_handler() {
                 $product['addToCartUrl'] = $wc_product->add_to_cart_url();
                 $product['permalink'] = get_permalink($wc_product->get_id());
                 $product['priceHtml'] = $wc_product->get_price_html();
+                $product['priceFormatted'] = wc_price($wc_product->get_price()); // Añadir este campo para el JS
                 // Usar imagen de WP si la del índice no existe
                 if (empty($product['imageUrl'])) {
                     $product['imageUrl'] = wp_get_attachment_image_url($wc_product->get_image_id(), 'thumbnail');

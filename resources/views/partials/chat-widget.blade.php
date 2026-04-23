@@ -44,7 +44,7 @@
                                 <template x-for="product in msg.products" :key="product.id">
                                     <div class="bg-gray-50 rounded-xl p-2 border border-gray-100 flex gap-3 group">
                                         <img :src="product.imageUrl" class="w-16 h-16 object-cover rounded-lg flex-shrink-0" alt="">
-                                        <div class="flex flex-col justify-between overflow-hidden">
+                                        <div class="flex flex-col justify-between overflow-hidden text-left">
                                             <a :href="product.permalink" class="font-bold text-xs text-black truncate hover:underline" x-text="product.name"></a>
                                             <span class="text-xs font-bold text-yellow-600" x-text="product.priceFormatted"></span>
                                             <button @click="addToCart(product.id)" 
@@ -54,6 +54,15 @@
                                             </button>
                                         </div>
                                     </div>
+                                </template>
+
+                                <!-- Botón de Ver Todos los Resultados -->
+                                <template x-if="msg.searchUrl">
+                                    <a :href="msg.searchUrl" 
+                                       target="_blank"
+                                       class="mt-3 block w-full bg-yellow-400 text-black text-center text-xs font-bold py-2.5 rounded-xl hover:bg-yellow-500 transition shadow-sm border border-yellow-500/20 no-underline">
+                                        <span x-text="msg.searchLabel"></span>
+                                    </a>
                                 </template>
                             </div>
                         </template>
@@ -155,7 +164,9 @@ function chatWidget() {
                     this.messages.push({
                         role: 'assistant',
                         text: data.data.message,
-                        products: data.data.products || []
+                        products: data.data.products || [],
+                        searchUrl: data.data.searchUrl || null,
+                        searchLabel: data.data.searchLabel || null
                     });
                 } else {
                     this.messages.push({

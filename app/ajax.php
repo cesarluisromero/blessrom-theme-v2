@@ -248,6 +248,13 @@ function web_chat_handler() {
         'message' => $message,
     ];
 
+    // Identificar al usuario si está logueado en WordPress
+    if (is_user_logged_in()) {
+        $current_user = wp_get_current_user();
+        $body['userId'] = (string)$current_user->ID;
+        $body['userName'] = $current_user->display_name;
+    }
+
     if (!empty($product_id)) {
         $body['currentProductId'] = $product_id;
     }

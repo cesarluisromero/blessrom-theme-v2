@@ -1,7 +1,18 @@
 <?php
 defined('ABSPATH') || exit;
 
-global $product;
+// Obtener producto directamente de WooCommerce
+if (!isset($product) || !$product) {
+    $product = wc_get_product(get_the_ID());
+}
+
+// Verificar que el producto sea variable y tenga variaciones
+if (!$product || !$product->is_type('variable')) {
+    echo '<p class="text-red-500">Este producto no tiene opciones de talla/color.</p>';
+    return;
+}
+
+$available_variations = $product->get_available_variations();
 
 // debug: mostrar info de variaciones
 $debug_info = [
@@ -10,11 +21,14 @@ $debug_info = [
     'product_name' => $product->get_name(),
 ];
 
-// Filtrar variaciones (temporalmente放宽 para debug)
-// Nota: Si no hay stock, igual mostrar tallas para que el usuario pueda ver opciones
+if (empty($available_variations)) {
+    echo '<p class="text-red-500">No hay variaciones disponibles para este producto.</p>';
+    echo '<script>console.log("DEBUG: No hay variaciones");</script>';
+    return;
+}
+
+// Filtrar variaciones (todas sin filtro de stock)
 $filtered_variations = array_filter($available_variations, function ($variation) {
-    // MOSTRAR TODAS LAS VARIACIONES sin filtro de stock
-    // Esto permite ver las tallas aunque no haya stock
     return !empty($variation['variation_id']);
 });
 

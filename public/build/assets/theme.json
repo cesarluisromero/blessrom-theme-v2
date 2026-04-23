@@ -144,6 +144,11 @@
           "color": "oklch(88.2% .059 254.128)"
         },
         {
+          "name": "Blue (300)",
+          "slug": "blue-300",
+          "color": "oklch(80.9% .105 251.813)"
+        },
+        {
           "name": "Blue (400)",
           "slug": "blue-400",
           "color": "oklch(70.7% .165 254.624)"

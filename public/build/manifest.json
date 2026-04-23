@@ -20,7 +20,7 @@
     "src": "editor.deps.json"
   },
   "resources/scripts/app.js": {
-    "file": "assets/app-sFIlPcbV.js",
+    "file": "assets/app-BwHbCvVz.js",
     "name": "app",
     "src": "resources/scripts/app.js",
     "isEntry": true,
@@ -31,7 +31,7 @@
       "_vendor-nouislider--DU6hECO.js"
     ],
     "css": [
-      "assets/app-Ckxin3dr.css"
+      "assets/app-x_NT38tZ.css"
     ]
   },
   "resources/scripts/editor.js": {
@@ -41,12 +41,12 @@
     "isEntry": true
   },
   "resources/styles/app.css": {
-    "file": "assets/app-DxOL0aTt.css",
+    "file": "assets/app-DaToqDCU.css",
     "src": "resources/styles/app.css",
     "isEntry": true
   },
   "resources/styles/editor.css": {
-    "file": "assets/editor-JiEHxz5i.css",
+    "file": "assets/editor-lkaQ6rE0.css",
     "src": "resources/styles/editor.css",
     "isEntry": true
   }

@@ -99,6 +99,29 @@ window.alpineCart = function() {
             });
         },
 
+        validColors() {
+            const talla = this.selected_pa_talla;
+            if (!talla) return [];
+            const colors = new Set();
+            this.availableVariations.forEach(v => {
+                if (v.attributes['attribute_pa_talla'] === talla) {
+                    const color = v.attributes['attribute_pa_color'];
+                    if (color) colors.add(color);
+                }
+            });
+            return Array.from(colors);
+        },
+
+        selectedVariationId() {
+            const match = this.availableVariations.find(v => {
+                return Object.entries(v.attributes).every(([key, val]) => {
+                    const attr = key.replace('attribute_', '');
+                    return this['selected_' + attr] === val;
+                });
+            });
+            return match ? match.variation_id : 0;
+        },
+
         updateMaxQty() {
             const match = this.availableVariations.find(v => {
                 return Object.entries(v.attributes).every(([key, val]) => {
@@ -117,6 +140,13 @@ window.alpineCart = function() {
                 this.quantity = inCart >= stock ? 0 : 1;
                 this.$refs.variationId.value = vid;
                 this.$refs.maxQty.value = this.maxQty;
+            } else {
+                this.maxQty = 10;
+                this.quantity = 1;
+                this.currentVariationId = 0;
+                this.errorMessage = '';
+                if (this.$refs.variationId) this.$refs.variationId.value = 0;
+                if (this.$refs.maxQty) this.$refs.maxQty.value = 10;
             }
         },
 

@@ -252,7 +252,7 @@ function web_chat_handler() {
         $body['currentProductId'] = $product_id;
     }
 
-    $response = wp_remote_post('http://77.37.43.158/web-chat', [
+    $response = wp_remote_post('http://77.37.43.158:8080/web-chat', [
         'headers' => [
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',

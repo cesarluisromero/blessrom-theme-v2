@@ -107,15 +107,17 @@ add_action('wp_ajax_blessrom_generate_ai_desc', function () {
     $categories = strip_tags($product->get_categories());
     $short_desc = strip_tags($product->get_short_description());
 
-    $prompt = "Eres un experto copywriter de moda femenina premium para la tienda Blessrom. 
-    Genera una descripción de venta corta (máximo 3 frases), persuasiva y emocional para este producto. 
-    Usa un tono elegante y cercano. El objetivo es que el cliente sienta que el producto resalta su estilo único.
+    $prompt = "Eres un copywriter de respuesta directa experto en moda de lujo y psicología del consumo. Tu misión es VENDER este producto AHORA. 
+    Genera una descripción ultra-persuasiva, audaz y agresiva que genere un deseo irresistible. 
+    Enfócate en la exclusividad, en cómo la cliente será el centro de todas las miradas y en la sensación de poder y belleza al usarlo.
+    
+    Usa frases cortas, potentes y de alto impacto. Máximo 3 frases.
     
     Producto: {$name}
     Categorías: {$categories}
     Descripción base: {$short_desc}
     
-    IMPORTANTE: No uses emojis. No menciones el precio. Solo entrega el texto persuasivo.";
+    IMPORTANTE: No uses emojis. No menciones el precio. No uses introducciones aburridas. Ve directo a la emoción y al deseo.";
 
     $response = wp_remote_post('https://api.openai.com/v1/chat/completions', [
         'headers' => [

@@ -10,7 +10,11 @@
     </div>
 
     <div class="space-y-3 text-gray-700 text-base leading-relaxed">
-        {!! wpautop($product->get_short_description()) !!}
+        @php
+            $ai_desc = get_post_meta($product->get_id(), '_blessrom_ai_description', true);
+            $final_desc = !empty($ai_desc) ? $ai_desc : $product->get_short_description();
+        @endphp
+        {!! wpautop($final_desc) !!}
     </div>
 
     <div class="pt-4 border-t border-gray-200 text-center">
